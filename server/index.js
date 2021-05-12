@@ -26,6 +26,9 @@ app.get('/getAll', (req, response) => {
 })
 
 // POST
+app.post('/userRegister', (request, response) => {
+    console.log( request.params);
+})
 
 // PUT
 
