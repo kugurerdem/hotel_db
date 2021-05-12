@@ -24,11 +24,20 @@ class DbService{
         return instance ? instance : new DbService();
     }
 
+    async registerUser(id, password){
+        const query = `INSERT INTO users(id, password) VALUES (${id}, '${password}')`;
+        console.log(query);
+
+        return this.makeQuery(query);
+    }
+
     async getAllData(){
+        return this.makeQuery("SELECT * FROM users");
+    }
+
+    async makeQuery(query){
         try{
             const response = await new Promise((resolve, reject) => {
-                const query = "SELECT * FROM users";
-
                 connection.query(query, (err, results) => {
                     if(err){
                         reject( new Error(err.message));
@@ -42,6 +51,7 @@ class DbService{
             return response;
         } catch(error){
             console.log(error);
+            return error;
         }
     }
 }

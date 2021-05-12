@@ -26,8 +26,14 @@ app.get('/getAll', (req, response) => {
 })
 
 // POST
-app.post('/userRegister', (request, response) => {
-    console.log( request.params);
+app.post('/userRegister', async (request, response) => {
+    console.log( request.body);
+    let id = request.body["id"];
+    let password = request.body["password"];
+
+    const db = dbService.getDbServiceInstance();
+    let res = await db.registerUser(id, password);
+    response.send(res);
 })
 
 // PUT
