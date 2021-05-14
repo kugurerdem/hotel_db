@@ -32,7 +32,7 @@ class DatabaseService{
     async registerUser(id, password, type="guest"){
         let queries = [];
         queries.push( this.makeQuery(`INSERT INTO User(username, password, type) VALUES ("${id}", "${password}", "${type}")`));
-        queries.push( this.makeQuery(`INSERT INTO GUEST(guest_id) VALUES ("${id}")`));
+        queries.push( this.makeQuery(`INSERT INTO GUEST(guest_id) VALUES ("${id}")`) );
         return queries;
     }
 
@@ -43,16 +43,15 @@ class DatabaseService{
             console.log("Either password or ID is wrong.");
             throw new Error("Either password or ID is wrong.");
         } else{
-            if(user.type = "guest"){
+            if(user.type == "guest"){
                 console.log("user type is guest");
-            } else if (user.type = "manager"){
+            } else if (user.type === "manager"){
                 // console.log("user type is guest");
-            } else if (user.type = "securitystaff"){
+            } else if (user.type == "securitystaff"){
                 // console.log("user type is guest");
-            }else  if(user.type = "housekeeper"){
+            }else  if(user.type == "housekeeper"){
                 // console.log("user type is guest");
             }
-            
         }
         return user;
     }

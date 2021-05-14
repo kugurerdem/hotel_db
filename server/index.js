@@ -26,12 +26,19 @@ app.get("/", (req, res) => {
 //    .catch( err => console.log(err) ); 
 //})
 
-app.post('/userLogin', async (request, response) => {
+app.post('/userLogin', async (request, response, next) => {
     let id = request.body["id"];
     let password = request.body["password"];
-    console.log(id, password);
-    let res = await database.loginUser(id, password);
-    response.send(res);
+    console.log("Trying to login...");
+    database.loginUser(id, password)
+        .then( (res) => {
+            console.log(res);
+            response.send(res);
+        })
+        .catch( (err) => {
+            console.log("Invalid user");
+            return response.status(401).send({ message: "Invalid user!"});
+        })
 })
 
 // POST

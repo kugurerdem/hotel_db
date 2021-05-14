@@ -2,9 +2,9 @@
 
 ## Server launch
 
-npm install //
+npm install \\
 nodemon index.js
 
 ## Client launch
 
-Just open index.html
+Just open index.html after you have launched the server.
