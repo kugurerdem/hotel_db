@@ -29,19 +29,29 @@ class DatabaseService{
         }
     }
 
-    async registerUser(id, password){
-        const query = `INSERT INTO USER(username, password) VALUES ("${id}", "${password}")`;
-        return this.makeQuery(query);
+    async registerUser(id, password, type="guest"){
+        let queries = [];
+        queries.push( this.makeQuery(`INSERT INTO User(username, password, type) VALUES ("${id}", "${password}", "${type}")`));
+        queries.push( this.makeQuery(`INSERT INTO GUEST(guest_id) VALUES ("${id}")`));
+        return queries;
     }
 
     async loginUser(id, password){
-        let user = await this.makeQuery(`SELECT * FROM User WHERE User.username = '${id}' AND '${password}' = User.password`);
-        if( user[0] == undefined){
+        let _user = await this.makeQuery(`SELECT * FROM User WHERE User.username = '${id}' AND '${password}' = User.password`);
+        let user = _user[0];
+        if( user == undefined){
             console.log("Either password or ID is wrong.");
             throw new Error("Either password or ID is wrong.");
         } else{
-            // find user type
-            
+            if(user.type = "guest"){
+                console.log("user type is guest");
+            } else if (user.type = "manager"){
+                // console.log("user type is guest");
+            } else if (user.type = "securitystaff"){
+                // console.log("user type is guest");
+            }else  if(user.type = "housekeeper"){
+                // console.log("user type is guest");
+            }
             
         }
         return user;
