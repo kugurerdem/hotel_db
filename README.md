@@ -1,3 +1,10 @@
 # CS353 Project
 
-Deneme123
+## Server launch
+
+npm install
+nodemon index.js
+
+## Client launch
+
+Just open index.html

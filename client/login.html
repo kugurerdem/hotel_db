@@ -36,33 +36,6 @@
                         Register
                     </button>
                 </div>
-            <div class="col-md-6">
-                <h3 class="text-center">
-                    For Employees
-                </h3>
-                
-                    <div class="form-group">
-                         
-                        <label for="exampleInputEmail1">
-                            ID
-                        </label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" />
-                    </div>
-                    <div class="form-group">
-                         
-                        <label for="exampleInputPassword1">
-                            Password
-                        </label>
-                        <input type="password" class="form-control" id="exampleInputPassword1" />
-                    </div>
-                    <button type="submit" class="btn btn-primary">
-                        Login
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        Register
-                    </button>
-
-            </div>
         </div>
     </div>
 </body>
@@ -77,6 +50,7 @@
 
     let user_register_btn = document.getElementById("user_register");
     user_register_btn.addEventListener("click", async function(){
+        // GET VALUES
         let id = document.getElementById("user_id").value;
         let password = document.getElementById("user_password").value;
         console.log(id, password);
