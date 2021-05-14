@@ -30,10 +30,21 @@ class DatabaseService{
     }
 
     async registerUser(id, password){
-        const query = `INSERT INTO USER(username, password) VALUES ('${id}', '${password}')`;
-        console.log(query);
-
+        const query = `INSERT INTO USER(username, password) VALUES ("${id}", "${password}")`;
         return this.makeQuery(query);
+    }
+
+    async loginUser(id, password){
+        let user = await this.makeQuery(`SELECT * FROM User WHERE User.username = '${id}' AND '${password}' = User.password`);
+        if( user[0] == undefined){
+            console.log("Either password or ID is wrong.");
+            throw new Error("Either password or ID is wrong.");
+        } else{
+            // find user type
+            
+            
+        }
+        return user;
     }
 
     async getAllData(){

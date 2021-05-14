@@ -18,17 +18,24 @@ app.get("/", (req, res) => {
     res.send('Hello World!!!');
 })
 
-app.get('/getAll', (req, response) => {
-    const result = database.getAllData();
+//app.get('/getAll', (req, response) => {
+//    const result = database.getAllData();
+//
+//    result
+//    .then( data => response.json({ data: data}))
+//    .catch( err => console.log(err) ); 
+//})
 
-    result
-    .then( data => response.json({ data: data}))
-    .catch( err => console.log(err) ); 
+app.post('/userLogin', async (request, response) => {
+    let id = request.body["id"];
+    let password = request.body["password"];
+    console.log(id, password);
+    let res = await database.loginUser(id, password);
+    response.send(res);
 })
 
 // POST
 app.post('/userRegister', async (request, response) => {
-    console.log( request.body);
     let id = request.body["id"];
     let password = request.body["password"];
     let res = await database.registerUser(id, password);

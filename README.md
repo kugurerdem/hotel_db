@@ -2,7 +2,7 @@
 
 ## Server launch
 
-npm install
+npm install //
 nodemon index.js
 
 ## Client launch

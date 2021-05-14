@@ -42,11 +42,16 @@
 
 <script> 
 
-  /*   let user_login_btn = document.getElementById("user_login");
-    user_login_btn.addEventListener("click", function(){
-        console.log("hi");
-        document.location = "index.html";
-    }) */
+    let user_login_btn = document.getElementById("user_login");
+    user_login_btn.addEventListener("click", async function(){
+        // GET VALUES
+        let id = document.getElementById("user_id").value;
+        let password = document.getElementById("user_password").value;
+
+        // API CALL
+        let response = await postData("http://localhost:5000/userLogin", { id, password} );
+        console.log(response);
+    })
 
     let user_register_btn = document.getElementById("user_register");
     user_register_btn.addEventListener("click", async function(){
