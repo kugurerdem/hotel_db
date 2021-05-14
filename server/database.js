@@ -17,11 +17,10 @@ connection.connect( (err) => {
     console.log( "db " + connection.state);
 })
 
-
 let instance = null;
-class DbService{
-    static getDbServiceInstance(){
-        return instance ? instance : new DbService();
+class DatabaseService{
+    static getDatabaseServiceInstance(){
+        return instance ? instance : new DatabaseService();
     }
 
     async registerUser(id, password){
@@ -56,4 +55,4 @@ class DbService{
     }
 }
 
-module.exports = DbService;
+module.exports = DatabaseService;
