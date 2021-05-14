@@ -32,7 +32,7 @@ class DatabaseService{
     async registerUser(id, password, type="guest"){
         let queries = [];
         queries.push( this.makeQuery(`INSERT INTO User(username, password, type) VALUES ("${id}", "${password}", "${type}")`));
-        queries.push( this.makeQuery(`INSERT INTO GUEST(guest_id) VALUES ("${id}")`) );
+        queries.push( this.makeQuery(`INSERT INTO ${type}(guest_id) VALUES ("${id}")`) );
         return queries;
     }
 
@@ -60,6 +60,9 @@ class DatabaseService{
         return this.makeQuery("SELECT * FROM users");
     }
 
+    async registerEmployee(){
+        return registerUser(id, password, type);
+    }
     async makeQuery(query){
         try{
             const response = await new Promise((resolve, reject) => {
