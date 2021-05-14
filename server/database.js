@@ -19,9 +19,9 @@ connection.connect( (err) => {
 
 
 let instance = null;
-class DbService{
+class DatabaseService{
     static getDbServiceInstance(){
-        return instance ? instance : new DbService();
+        return instance ? instance : new DatabaseService();
     }
 
     async registerUser(id, password){
@@ -56,4 +56,4 @@ class DbService{
     }
 }
 
-module.exports = DbService;
+module.exports = DatabaseService;

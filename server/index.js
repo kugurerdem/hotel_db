@@ -4,8 +4,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 dotenv.config()
 
-const dbService = require('./dbService');
-const { response } = require('express');
+const DatabaseService = require('./database');
 
 app.use( cors())
 app.use( express.json())
@@ -17,7 +16,7 @@ app.get("/", (req, res) => {
 })
 
 app.get('/getAll', (req, response) => {
-    const db = dbService.getDbServiceInstance();
+    const db = DatabaseService.getDatabaseServiceInstance();
     const result = db.getAllData();
 
     result
@@ -31,7 +30,7 @@ app.post('/userRegister', async (request, response) => {
     let id = request.body["id"];
     let password = request.body["password"];
 
-    const db = dbService.getDbServiceInstance();
+    const db = DatabaseService.getDatabaseServiceInstance();
     let res = await db.registerUser(id, password);
     response.send(res);
 })
