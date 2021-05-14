@@ -50,7 +50,17 @@
 
         // API CALL
         let response = await postData("http://localhost:5000/userLogin", { id, password} );
-        console.log(response.type);
+        let user_type = response.type;
+
+        if(user_type == "guest"){
+            console.log("user type is guest");
+        } else if (user_type == "manager"){
+            // console.log("user type is guest");
+        } else if (user_type == "securitystaff"){
+            // console.log("user type is guest");
+        } else  if(user_type == "housekeeper"){
+            // console.log("user type is guest");
+        }
     })
 
     let user_register_btn = document.getElementById("user_register");
