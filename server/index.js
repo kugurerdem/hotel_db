@@ -46,7 +46,20 @@ app.post('/userRegister', async (request, response) => {
     let id = request.body["id"];
     let password = request.body["password"];
     let type = request.body["type"];
+    console.log( request.body);
     let res = await database.registerUser(id, password, type);
+    response.send(res);
+})
+
+app.post('/employeeRegister', async (request, response) => {
+    let id = request.body["id"];
+    let password = request.body["password"];
+    let type = request.body["type"];
+    let salary = request.body["salary"];
+    let name = request.body["name"];
+
+    console.log( request.body);
+    let res = await database.registerEmployee(id, password, type, salary, name);
     response.send(res);
 })
 

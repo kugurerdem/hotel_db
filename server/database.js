@@ -32,7 +32,14 @@ class DatabaseService{
     async registerUser(id, password, type="guest"){
         let queries = [];
         queries.push( this.makeQuery(`INSERT INTO User(username, password, type) VALUES ("${id}", "${password}", "${type}")`));
-        queries.push( this.makeQuery(`INSERT INTO ${type}(guest_id) VALUES ("${id}")`) );
+        queries.push( this.makeQuery(`INSERT INTO ${type}(${type}_id) VALUES ("${id}")`) );
+        return queries;
+    }
+
+    async registerEmployee(id, password, type, salary, name){
+        let queries = []
+        queries.concat( this.registerUser(id, password, type));
+        queries.push( this.makeQuery(`INSERT INTO Employee(employee_id, salary, name) VALUES("${id}", ${salary}, "${name}")`) );
         return queries;
     }
 
@@ -60,9 +67,6 @@ class DatabaseService{
         return this.makeQuery("SELECT * FROM users");
     }
 
-    async registerEmployee(){
-        return registerUser(id, password, type);
-    }
     async makeQuery(query){
         try{
             const response = await new Promise((resolve, reject) => {

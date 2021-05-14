@@ -29,51 +29,75 @@
             <a class="nav-link disabled" href="add_employee.html"> Add Employee </a>
         </li>
       </ul>
-    <center>
+      <div class="row justify-content-center">
         <div class="col-md-6">
             <h3 class="text-center">
                 For Users
             </h3>
-                <div class="form-group">
+            <div class="form-group">
                         
-                    <label for="exampleInputEmail1">
+                    <label>
                         ID
                     </label>
                     <input class="form-control" id="user_id" />
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1">
+                    <label>
                         Password
                     </label>
                     <input type="password" class="form-control" id="user_password" />
                 </div>
+                <div class="form-group">
+                    <label>
+                        Name
+                    </label>
+                    <input class="form-control" id="user_name" />
+                </div>
+                <div class="form-group">
+                    <label>
+                        Salary
+                    </label>
+                    <input class="form-control" id="user_salary" />
+                </div>
                 <br>
                 <select class="form-select" aria-label="Default select example" id="employee_type">
                     <option selected>CHOOSE EMPLOYEE TYPE</option>
-                    <option value="1">Security</option>
+                    <option value="1">Securitystaff</option>
                     <option value="2">Housekeeper</option>
                     <option value="3">Manager</option>
-                    </select>
+                </select>
+                <br>
                 <button type="submit" class="btn btn-primary" id="add_employee">
                     Add Employee
                 </button>
             </div>
-    </center>
+        </div>
+
 </body>
 
+<script src="../utils.js"> </script>
 <script> 
     let add_employee_btn = document.getElementById("add_employee");
-    add_employee_btn.addEventListener("click", function(){
+    add_employee_btn.addEventListener("click", async function(){
         let id = document.getElementById("user_id").value;
-        let pw = document.getElementById("user_password").value;
-        let type = document.getElementById("employee_type");
+        let password = document.getElementById("user_password").value;
+        let name = document.getElementById("user_name").value;
+        let salary = document.getElementById("user_salary").value;
 
-        if( type.selectedIndex == 0){
+        let _type = document.getElementById("employee_type");
+
+        let index = _type.selectedIndex;
+        if( index == 0){
             alert("Select an employee type");
         } else{
-            console.log("type = ", type.options[type.selectedIndex].text);
+            let type = _type.options[index].text.toLowerCase();
+            console.log("type = ", type);
+            // API CALL
+            let response = await postData("http://localhost:5000/employeeRegister", {
+                id, password, type, salary, name
+            })
+            console.log(response);
         }
-        
     })
     
 </script>
