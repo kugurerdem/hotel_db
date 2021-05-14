@@ -31,7 +31,6 @@ app.post('/userRegister', async (request, response) => {
     console.log( request.body);
     let id = request.body["id"];
     let password = request.body["password"];
-
     let res = await database.registerUser(id, password);
     response.send(res);
 })

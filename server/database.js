@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 const dotenv = require('dotenv');
+const SQL_STATEMENTS = require('./sql.js')
 
 dotenv.config();
 
@@ -17,14 +18,19 @@ connection.connect( (err) => {
     console.log( "db " + connection.state);
 })
 
-let instance = null;
 class DatabaseService{
-    static getDatabaseServiceInstance(){
-        return instance ? instance : new DatabaseService();
+    constructor(){
+        this.createTables();
+    }
+
+    createTables(){
+        for(let i = 0; i < SQL_STATEMENTS.length; i++){
+            this.makeQuery(SQL_STATEMENTS[i]);
+        }
     }
 
     async registerUser(id, password){
-        const query = `INSERT INTO users(id, password) VALUES (${id}, '${password}')`;
+        const query = `INSERT INTO USER(username, password) VALUES ('${id}', '${password}')`;
         console.log(query);
 
         return this.makeQuery(query);
