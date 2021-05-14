@@ -20,7 +20,7 @@ connection.connect( (err) => {
 
 let instance = null;
 class DatabaseService{
-    static getDbServiceInstance(){
+    static getDatabaseServiceInstance(){
         return instance ? instance : new DatabaseService();
     }
 
