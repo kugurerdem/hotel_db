@@ -1,3 +1,4 @@
+// Import dependencies
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -10,18 +11,19 @@ app.use( cors())
 app.use( express.json())
 app.use( express.urlencoded( {extended: false}))
 
+const database = new DatabaseService(); 
+
 // GET
 app.get("/", (req, res) => {
     res.send('Hello World!!!');
 })
 
 app.get('/getAll', (req, response) => {
-    const db = DatabaseService.getDatabaseServiceInstance();
-    const result = db.getAllData();
+    const result = database.getAllData();
 
     result
     .then( data => response.json({ data: data}))
-    .catch( err => console.log(err) );
+    .catch( err => console.log(err) ); 
 })
 
 // POST
@@ -30,8 +32,7 @@ app.post('/userRegister', async (request, response) => {
     let id = request.body["id"];
     let password = request.body["password"];
 
-    const db = DatabaseService.getDatabaseServiceInstance();
-    let res = await db.registerUser(id, password);
+    let res = await database.registerUser(id, password);
     response.send(res);
 })
 

@@ -17,7 +17,6 @@ connection.connect( (err) => {
     console.log( "db " + connection.state);
 })
 
-
 let instance = null;
 class DatabaseService{
     static getDatabaseServiceInstance(){
