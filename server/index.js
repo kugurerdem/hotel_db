@@ -42,6 +42,22 @@ app.get("/building", async (request, response) => {
         .catch( err => console.log(err) ); 
 })
 
+app.get("/trainingEvents", async (request, response) =>{
+    const result = database.getTrainingEvents();
+
+    result
+        .then( data => response.json({ data: data}))
+        .catch( err => console.log(err) ); 
+})
+
+app.get("/securities/:id", async (request, response) => {
+    console.log(request.params.id);
+    const result = database.isSec(request.params.id);
+    result
+        .then( data => response.json({ data: data}))
+        .catch( err => console.log(err) ); 
+})
+
 // POST
 app.post('/userLogin', async (request, response) => {
     let id = request.body["id"];
@@ -62,8 +78,10 @@ app.post('/eventCreate', async (request, response) => {
     let event = request.body["event"];
     let building = request.body["building"];
     let date = request.body["date"];
+    let price = request.body["price"];
+    let name = request.body["name"];
 
-    database.createEvent(event, building, date)
+    database.createEvent(event, building, date, price, name)
         .then( (res) => {
             console.log(res);
             response.send(res);
@@ -80,9 +98,7 @@ app.post('/assignSecurity', async (request, response) => {
     console.log(request.body);
     let res = await database.assignSec(secVal, buildVal);
     response.send(res);   
-}
-
-)
+})
 
 app.post('/userRegister', async (request, response) => {
     let id = request.body["id"];
@@ -90,6 +106,24 @@ app.post('/userRegister', async (request, response) => {
     let type = request.body["type"];
     console.log( request.body);
     let res = await database.registerUser(id, password, type);
+    response.send(res);
+})
+
+app.post('/securityLeave', async (request, response) => {
+    let start = request.body["start"];
+    let end = request.body["end"];
+    let security = request.body["security"];
+    console.log(start, end, security);
+    console.log( request.body);
+    let res = await database.leaveSecurity(security, start, end);
+    response.send(res);
+})
+
+app.post('/trainingSecurity', async (request, response) => {
+    let program = request.body["program"];
+    let security = request.body["security"];
+    console.log( request.body);
+    let res = await database.securityTraining(program, security);
     response.send(res);
 })
 

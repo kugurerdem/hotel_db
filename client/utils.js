@@ -22,3 +22,37 @@ async function getData(url = ''){
         .then( (response) => response.json() )
         .then( (obj) => obj.data )
 }
+
+function setCookie(cname, cvalue, exdays=1) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname){
+    let cookies = document.cookie.replace(/\s/g, '').split(";");
+    for(let i = 0; i < cookies.length; i++){
+        let expressions = cookies[i].split("=");
+        let left = expressions[0];
+        let right = expressions[1];
+        // console.log(left);
+        if( left == cname){
+            return right;
+        }
+    }
+
+    return null;
+}
+
+function getValueOfSelector(selector_id){
+    let selector = document.getElementById(selector_id);
+    let index = selector.selectedIndex;
+
+    return index;
+  }
+
+function getTextOfSelector(selector_id){
+    let selector = document.getElementById(selector_id);
+return selector.options[ getValueOfSelector(selector_id)].text;
+}

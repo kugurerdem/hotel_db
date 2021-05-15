@@ -54,6 +54,10 @@ class DatabaseService{
         return queries;
     }
 
+    async leaveSecurity(security, start, end){
+        return this.makeQuery(`INSERT INTO leaveSecurity(security, start, end, isaccepted) VALUES ("${security}", "${start}", "${end}", "Pending") `);
+    }
+
     async registerBuilding(name, x, y, size){
         let queries = []
         queries.push(this.makeQuery(`INSERT INTO Building(building_id, cor_x, cor_y, building_size) VALUES("${name}", "${x}", "${y}", "${size}")`));
@@ -63,12 +67,26 @@ class DatabaseService{
         }
         return queries;
     }
-    async createEvent(event, building, date, price = 0){
-        return this.makeQuery(`INSERT INTO event(building_id, event_type, which_date, price) VALUES("${building}", "${event}", "${date}", "${price}")`);
+
+
+    
+    async securityTraining(program, security){
+        return this.makeQuery(`INSERT INTO securityTrain(security, event, isaccepted) VALUES("${security}", "${program}", "Pending")`);
+    }
+    async createEvent(event, building, date, price = 0, name){
+        return this.makeQuery(`INSERT INTO event(building_id, event_type, which_date, price, name) VALUES("${building}", "${event}", "${date}", "${price}", "${name}")`);
     }
 
     async assignSec(security, building){
         return this.makeQuery(`UPDATE securityStaff SET building_to_watch = '${building}' WHERE securitystaff_id = '${security}'`);
+    }
+
+    async isSec(id){
+        return this.makeQuery(`SELECT * FROM securityStaff WHERE SecurityStaff.securitystaff_id = '${id}'`);
+    }
+
+    async getTrainingEvents(){
+        return this.makeQuery(`SELECT * FROM event WHERE event.event_type = "Training Program"`);
     }
 
     async loginUser(id, password){

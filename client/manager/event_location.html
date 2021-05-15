@@ -43,12 +43,10 @@
               <option value="3">Training Program</option>
             </select>
 
-
-            
-            <br>
-
-          Building:
-          
+            <label for="example-date-input" class="col-2 col-form-label"> Event Name </label>
+            <input class="form-control" id="name">
+ 
+          <label for="example-date-input" class="col-2 col-form-label"> Building </label>
             <select class="row2 form-select" aria-label="Default select example" id="building_selector">
               <option selected>CHOOSE BUILDING </option>
             </select>
@@ -76,22 +74,11 @@
     let building = getTextOfSelector("building_selector");
     let date = document.getElementById("date").value;
     let price = document.getElementById("price").value;
+    let name = document.getElementById("name").value;
 
-    let response = await postData("http://localhost:5000/eventCreate", { event, building, date, price});
-    console.log(event, building, date, price);
+    let response = await postData("http://localhost:5000/eventCreate", { event, building, date, price, name});
+    console.log(event, building, date, price, name);
   })
-  
-  function getValueOfSelector(selector_id){
-    let selector = document.getElementById(selector_id);
-    let index = selector.selectedIndex;
-
-    return index;
-  }
-
-  function getTextOfSelector(selector_id){
-    let selector = document.getElementById(selector_id);
-    return selector.options[ getValueOfSelector(selector_id)].text;
-  }
 
   updateBuildingSelector();
   async function updateBuildingSelector(){
