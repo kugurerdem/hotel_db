@@ -65,20 +65,20 @@
     // Clear table (TO-DO)
     let tbody = securityTable.getElementsByTagName("tbody")[0];
     // 
-    let leaveRequests = await getData("http://localhost:5000/getSecurityLeave");
-    console.log( leaveRequests);
-    for(let i = 0; i < leaveRequests.length; i++){
-      let sec = leaveRequests[i];
+    let trainingRequests = await getData("http://localhost:5000/getSecurityTraining");
+    console.log( trainingRequests);
+    for(let i = 0; i < trainingRequests.length; i++){
+      let sec = trainingRequests[i];
       let { row, accept_button, reject_button } = createRow([sec.security, sec.start, sec.end]);
       tbody.append( row );
 
       accept_button.addEventListener("click", async function(){
-        let response = await postData('http://localhost:5000/securityLeaveAccepp', { security: sec.security });
+        let response = await postData('http://localhost:5000/securityTrainingAccepp', { security: sec.security });
         console.log( response);
       })
 
       reject_button.addEventListener("click", async function(){
-        let response = await postData('http://localhost:5000/securityLeaveReject', { security: sec.security });
+        let response = await postData('http://localhost:5000/securityTrainingReject', { security: sec.security });
         console.log( response);
       })
     }
@@ -89,21 +89,21 @@
     // Clear table (TO-DO)
     let tbody = housekeeperTable.getElementsByTagName("tbody")[0];
 
-    let leaveRequests = await getData("http://localhost:5000/getHousekeeperLeave");
-    console.log(leaveRequests);
+    let trainingRequests = await getData("http://localhost:5000/getHousekeeperTraining");
+    console.log(trainingRequests);
 
-    for(let i = 0; i < leaveRequests.length; i++){
-      let keeper = leaveRequests[i];
+    for(let i = 0; i < trainingRequests.length; i++){
+      let keeper = trainingRequests[i];
       let { row, accept_button, reject_button } = createRow([keeper.housekeeper, keeper.start, keeper.end]);
       tbody.append( row );
 
       accept_button.addEventListener("click", async function(){
-        let response = await postData('http://localhost:5000/housekeeperLeaveAccepp', { housekeeper: keeper.housekeeper });
+        let response = await postData('http://localhost:5000/housekeeperTrainingAccepp', { housekeeper: keeper.housekeeper });
         console.log( response);
       })
 
       reject_button.addEventListener("click", async function(){
-        let response = await postData('http://localhost:5000/housekeeperLeaveReject', { housekeeper: keeper.housekeeper  });
+        let response = await postData('http://localhost:5000/housekeeperTrainingReject', { housekeeper: keeper.housekeeper  });
         console.log( response);
       })
     }

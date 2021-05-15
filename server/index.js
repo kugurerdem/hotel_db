@@ -71,6 +71,22 @@ app.get("/getHousekeeperLeave", async (request, response) => {
         .then( data => response.json({ data: data}))
         .catch( err => console.log(err) ); 
 })
+
+app.get("/getSecurityTraining", async (request, response) => {
+    const result = database.getSecurityTraining();
+    result
+        .then( data => response.json({ data: data}))
+        .catch( err => console.log(err) ); 
+})
+app.get("/getHousekeeperTraining", async (request, response) => {
+    const result = database.getHousekeeperTraining();
+    result
+        .then( data => response.json({ data: data}))
+        .catch( err => console.log(err) ); 
+})
+
+
+
 //------------------------------------------------------------------------------------------------------------
 // POST
 app.post('/userLogin', async (request, response) => {
@@ -131,6 +147,36 @@ app.post('/housekeeperLeaveReject', async (request, response) => {
     let housekeeper = request.body["housekeeper"];
     console.log(request.body);
     let res = await database.housekeeperLeaveReject(housekeeper);
+    response.send(res);   
+})
+
+//--------------------------------------------------------------------------------------------------------------------------
+//TRINING BUTTONS----------------------------------------------------------------------------------------
+app.post('/securityTrainingAccepp', async (request, response) => {
+    let security = request.body["security"];
+    console.log(request.body);
+    let res = await database.securityTrainingAccepp(security);
+    response.send(res);   
+})
+
+app.post('/securityTrainingReject', async (request, response) => {
+    let security = request.body["security"];
+    console.log(request.body);
+    let res = await database.securityTrainingReject(security);
+    response.send(res);   
+})
+
+app.post('/housekeeperTrainingAccepp', async (request, response) => {
+    let housekeeper = request.body["housekeeper"];
+    console.log(request.body);
+    let res = await database.housekeeperTrainingAccepp(housekeeper);
+    response.send(res);   
+})
+
+app.post('/housekeeperTrainingReject', async (request, response) => {
+    let housekeeper = request.body["housekeeper"];
+    console.log(request.body);
+    let res = await database.housekeeperTrainingReject(housekeeper);
     response.send(res);   
 })
 

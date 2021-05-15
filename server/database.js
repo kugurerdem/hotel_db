@@ -91,14 +91,34 @@ async housekeeperLeaveAccepp(housekeeper){
 async housekeeperLeaveReject(housekeeper){
     return this.makeQuery(`UPDATE leaveHousekeeper SET isaccepted = "Rejected" WHERE housekeeper = '${housekeeper}'`);
 }
-//----------------------------------------------------------------------------------------------------------------
-async getHousekeeperLeave(){
-    return this.makeQuery(`SELECT * FROM leaveHousekeeper WHERE leaveHousekeeper.isaccepted = "Pending"`);
-}
-async getSecurityLeave(){
-    return this.makeQuery(`SELECT * FROM leaveSecurity WHERE leaveSecurity.isaccepted = "Pending"`);
+
+async securityTrainingAccepp(security){
+    return this.makeQuery(`UPDATE securityTrain SET isaccepted = "Accepted" WHERE security = '${security}'`);
 }
 
+async securityTrainingReject(security){
+    return this.makeQuery(`UPDATE securityTrain SET isaccepted = "Rejected" WHERE security = '${security}'`);
+}
+async housekeeperTrainingAccepp(housekeeper){
+    return this.makeQuery(`UPDATE housekeeperTrain SET isaccepted = "Accepted" WHERE housekeeper = '${housekeeper}'`);
+}
+async housekeeperTrainingReject(housekeeper){
+    return this.makeQuery(`UPDATE housekeeperTrain SET isaccepted = "Rejected" WHERE housekeeper = '${housekeeper}'`);
+}
+//----------------------------------------------------------------------------------------------------------------
+async getHousekeeperLeave(){
+    return this.makeQuery(`SELECT * FROM housekeeperTrain WHERE housekeeperTrain.isaccepted = "Pending"`);
+}
+async getSecurityLeave(){
+    return this.makeQuery(`SELECT * FROM securityTrain WHERE securityTrain.isaccepted = "Pending"`);
+}
+async getHousekeeperTraining(){
+    return this.makeQuery(`SELECT * FROM leaveHousekeeper WHERE leaveHousekeeper.isaccepted = "Pending"`);
+}
+async getSecurityTraining(){
+    return this.makeQuery(`SELECT * FROM leaveSecurity WHERE leaveSecurity.isaccepted = "Pending"`);
+}
+//-------------------------------------------------------------------------------------------------------------------------
     async assignSec(security, building){
         return this.makeQuery(`UPDATE securityStaff SET building_to_watch = '${building}' WHERE securitystaff_id = '${security}'`);
     }
