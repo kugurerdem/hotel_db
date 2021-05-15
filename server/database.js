@@ -66,6 +66,14 @@ class DatabaseService{
     async getMyTickets(user){
         return this.makeQuery(`SELECT event FROM eventTickets WHERE eventTickets.user = '${user}' `);
     }
+
+    async getMyFoodOrders(user){
+        return this.makeQuery(`SELECT restaurant, food, housekeeper, status FROM foodOrder WHERE foodOrder.user = '${user}' `);
+    }
+
+    
+
+
     async registerBuilding(name, x, y, size){
         let queries = []
         queries.push(this.makeQuery(`INSERT INTO Building(building_id, cor_x, cor_y, building_size) VALUES("${name}", "${x}", "${y}", "${size}")`));
@@ -76,12 +84,14 @@ class DatabaseService{
         return queries;
     }
 
-
-    
-
     async securityTraining(program, security){
         return this.makeQuery(`INSERT INTO securityTrain(security, event, isaccepted) VALUES("${security}", "${program}", "Pending")`);
     }
+
+    async orderFood(restaurant , food , user ){
+        return this.makeQuery(`INSERT INTO foodOrder(restaurant, food, user, housekeeper, status) VALUES("${restaurant}", "${food}","${user}", "-", "Preparing")`);
+    }
+
     async createEvent(event, building, date, price = 0, name){
         return this.makeQuery(`INSERT INTO event(building_id, event_type, which_date, price, name) VALUES("${building}", "${event}", "${date}", "${price}", "${name}")`);
     }
@@ -117,6 +127,15 @@ async housekeeperTrainingReject(housekeeper){
 async getHousekeeperLeave(){
     return this.makeQuery(`SELECT * FROM housekeeperTrain WHERE housekeeperTrain.isaccepted = "Pending"`);
 }
+
+async getRestaurantsForUser(){
+    return this.makeQuery(`SELECT * FROM restaurant`);
+}
+
+async getMenuByRestaurant(restaurant){
+    return this.makeQuery(`SELECT * FROM food WHERE food.restaurant = '${restaurant}'`);
+}
+
 async getSecurityLeave(){
     return this.makeQuery(`SELECT * FROM securityTrain WHERE securityTrain.isaccepted = "Pending"`);
 }

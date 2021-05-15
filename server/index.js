@@ -108,9 +108,29 @@ app.get("/getMyReservation/:user", async (request, response) => {
         .then( data => response.json({ data: data}))
         .catch( err => console.log(err) ); 
 })
+app.get("/getMyFoodOrders/:user", async (request, response) => {
+    const result = database.getMyFoodOrders(request.params.user);
+    result
+        .then( data => response.json({ data: data}))
+        .catch( err => console.log(err) ); 
+})
 
 app.get("/getMyTickets/:user", async (request, response) => {
     const result = database.getMyTickets(request.params.user);
+    result
+        .then( data => response.json({ data: data}))
+        .catch( err => console.log(err) ); 
+})
+
+app.get("/getRestaurantsForUser", async (request, response) => {
+    const result = database.getRestaurantsForUser();
+    result
+        .then( data => response.json({ data: data}))
+        .catch( err => console.log(err) ); 
+})
+
+app.get("/getMenuByRestaurant/:restaurant", async (request, response) => {
+    const result = database.getMenuByRestaurant(request.params.restaurant);
     result
         .then( data => response.json({ data: data}))
         .catch( err => console.log(err) ); 
@@ -285,6 +305,18 @@ app.post('/reserveRoom', async (request, response) => {
     let res = await database.reserveRoom(user, building, room, start, end);
     response.send(res);
 })
+
+
+app.post('/orderFood', async (request, response) => {
+    let restaurant = request.body["restaurant"];
+    let food = request.body["food"];
+    let user = request.body["user"];
+
+    console.log( request.body);
+    let res = await database.orderFood(restaurant , food , user );
+    response.send(res);
+})
+
 
 app.post('/joinEvent', async (request, response) => {
     let user = request.body["user"];

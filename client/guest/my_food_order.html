@@ -28,7 +28,7 @@
           <br>
           <h3> Food Orders </h3>
           <br> <br>
-          <table class="table table-dark table-striped table-hover tbl_code_with_mark" id="reservation_table">
+          <table class="table table-dark table-striped table-hover tbl_code_with_mark" id="foodorder_table">
             <tr>
               <th>Restaurant</th>
               <th>Food</th>
@@ -37,13 +37,46 @@
             </tr>
           </table>
         </div>
-      
 </body>
 
+<script src="../utils.js"> </script>
 <script> 
 
-    
+let foodorder_table = document.getElementById("foodorder_table");
 
+updateFoodorderTable();
+async function updateFoodorderTable(){
+  // Clear table (TO-DO)
+  let tbody = foodorder_table.getElementsByTagName("tbody")[0];
+  let foodorders = await getData("http://localhost:5000/getMyFoodOrders/"+getCookie("user"));
+  console.log(foodorders);
+  let user = getCookie("user");
+
+  for(let i = 0; i < foodorders.length; i++){
+    let foodorder = foodorders[i];
+    let row = createRow([foodorder.restaurant, foodorder.food, foodorder.housekeeper, foodorder.status]);
+    tbody.append( row );
+  } 
+}
+
+function createRow( arr ){
+    let row = document.createElement("tr");
+    for(let i = 0; i < arr.length; i++){
+      let col = document.createElement("td");
+      col.innerHTML = arr[i];
+      row.appendChild(col);
+    }
+
+    return row
+  }
+
+/* app.get("/getMyFoodOrders/:user", async (request, response) => {
+    const result = database.getMyFoodOrders(request.params.user);
+    result
+        .then( data => response.json({ data: data}))
+        .catch( err => console.log(err) ); 
+}) */
+    
 </script>
 
 

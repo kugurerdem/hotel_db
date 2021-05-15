@@ -29,6 +29,35 @@
             <a class="nav-link" href="add_employee.html"> Add Employee </a>
         </li>
       </ul>
+      <div class="row justify-content-center"> 
+        <div class="col-md-10">
+          <br>
+          <h3> Assign Housekeeper </h3>
+          <br> <br>
+          <table class="table table-dark table-striped table-hover tbl_code_with_mark" id="reservation_table">
+            <tr>
+              <th>Restaurant</th>
+              <th>Food</th>
+              <th>Housekeeper</th>
+              <th>Status</th>
+              <th>Submit</th>
+            </tr>
+            <tr>
+              <th>R1</th>
+              <th>F1</th>
+              <th>
+                <select class="form-select" aria-label="Default select example" id="housekeeper_selector">
+                <option selected>CHOOSE HOUSEKEEPER</option>
+              </select></th>
+              <th>Pending</th>
+              <th>
+                <button type="submit" class="btn btn-primary" id="assign">
+                Assign
+                </button>
+              </th>
+            </tr>
+          </table>
+        </div>
 </body>
 
 <script> 

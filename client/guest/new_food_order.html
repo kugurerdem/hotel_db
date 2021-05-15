@@ -31,30 +31,69 @@
             </h3>
             <div class="form-group">
                         
-                <select class="form-select" aria-label="Default select example" id="restaurant">
+                <select class="form-select" aria-label="Default select example" id="restaurant_selector">
                     <option selected>CHOOSE RESTAURANT</option>
-                    <option value="1">R1</option>
-                    <option value="2">R2</option>
-                    <option value="3">R3</option>
                 </select>
                 <br>
-                <select class="form-select" aria-label="Default select example" id="food">
+                <select class="form-select" aria-label="Default select example" id="food_selector">
                   <option selected>CHOOSE FOOD</option>
-                  <option value="1">F1</option>
-                  <option value="2">F2</option>
-                  <option value="3">F3</option>
               </select>
               <br>
-                <button type="submit" class="btn btn-primary" id="add_employee">
-                    Add Employee
+                <button type="submit" class="btn btn-primary" id="order_food">
+                    Order Food
                 </button>
             </div>
         </div>
 </body>
 
+<script src="../utils.js"> </script>
 <script> 
+// 
+  let food_selector = document.getElementById("food_selector");
+  let restaurant_selector = document.getElementById("restaurant_selector");
 
+  updateRestaurantSelector();
+  async function updateRestaurantSelector(){
+    clearSelector(restaurant_selector);
+    let restaurants = await getData('http://localhost:5000/getRestaurantsForUser');
     
+    for(let i = 0; i < restaurants.length; i++){
+      let restaurant = restaurants[i];
+
+      let option = document.createElement("option");
+      option.value = i;
+      option.text = restaurant.restaurant;
+      restaurant_selector.add(option);
+    }
+    return restaurants;
+  } 
+
+  restaurant_selector.addEventListener("change", async function(){
+      if( this.selectedIndex != 0){
+        let restaurant = this.options[this.selectedIndex].text;
+        let foods = await getData("http://localhost:5000/getMenuByRestaurant/"+restaurant);
+        updateFoodSelector(foods);
+    }
+  })
+
+  async function updateFoodSelector(foods){
+      clearSelector(food_selector);
+      for(let i = 0; i < foods.length; i++){
+      let food = foods[i];
+      let option = document.createElement("option");
+      option.text = food.food;
+      food_selector.add(option);
+    }
+  } 
+
+  let order_food_btn = document.getElementById("order_food");
+  order_food_btn.addEventListener("click", async function(){
+    let restaurant = getTextOfSelector("restaurant_selector");
+    let food = getTextOfSelector("food_selector");
+    let response = await postData("http://localhost:5000/orderFood", { restaurant , food , user: getCookie("user") });
+    console.log(response);
+  })
+
 
 </script>
 
