@@ -25,26 +25,49 @@
     <div style="padding-left: 50px;padding-right: 50px;padding-top:100px;" class="container">
         <h2 class="text-center">My Applications</h2>
 
-        <table class="table table-dark table-striped table-hover tbl_code_with_mark">
+        <table class="table table-dark table-striped table-hover tbl_code_with_mark" id="table">
             <tr>
                 <th>Training Name</th>
                 <th>Manager</th>
                 <th>Date</th>
                 <th>Status</th>
             </tr>
-            <tr>
-                <td>Welcoming</td>
-                <td>Jessica</td>
-                <td>17.05.21</td>
-                <td>Pending</td>
-            </tr>
+
         </table>
     </div>
+    <script>
+        const data = [
+            ["Welcome",
+                "jes",
+                "12,12,2022",
+                "Pending"
+            ],
+            ["Cleaning",
+                "jen",
+                "12,12,2022",
+                "Accepted"
+            ]
+
+        ];
+        var table = document.getElementById("table");
+        for (var i = 0; i < data.length; i++) {
+            var row = document.createElement('tr');
+            for (var j = 0; j < data[i].length; j++) {
+                var cell = document.createElement('th');
+                cell.textContent = data[i][j];
+                row.appendChild(cell);
+                // console.log(cell.textContent)
+            }
+            // console.log(row.textContent);
+            console.log("here  " + document.getElementById("table").textContent + "end");
+            row.bgColor = "black";
+            document.getElementById("table").appendChild(row);
+        }
+    </script>
 
 </body>
 
-<script>
-</script>
+
 
 
 </html>
