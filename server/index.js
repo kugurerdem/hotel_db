@@ -58,6 +58,20 @@ app.get("/securities/:id", async (request, response) => {
         .catch( err => console.log(err) ); 
 })
 
+//-----------------------------------------------------------------------------------------------------------
+app.get("/getSecurityLeave", async (request, response) => {
+    const result = database.getSecurityLeave();
+    result
+        .then( data => response.json({ data: data}))
+        .catch( err => console.log(err) ); 
+})
+app.get("/getHousekeeperLeave", async (request, response) => {
+    const result = database.getHousekeeperLeave();
+    result
+        .then( data => response.json({ data: data}))
+        .catch( err => console.log(err) ); 
+})
+//------------------------------------------------------------------------------------------------------------
 // POST
 app.post('/userLogin', async (request, response) => {
     let id = request.body["id"];
@@ -91,6 +105,39 @@ app.post('/eventCreate', async (request, response) => {
             return response.status(400).send({ message: "Event could not created"});
         })        
 })
+//LEAVE FORM BUTTONS----------------------------------------------------------------------------------------
+app.post('/securityLeaveAccepp', async (request, response) => {
+    let security = request.body["security"];
+    console.log(request.body);
+    let res = await database.securityLeaveAccepp(security);
+    response.send(res);   
+})
+
+app.post('/securityLeaveReject', async (request, response) => {
+    let security = request.body["security"];
+    console.log(request.body);
+    let res = await database.securityLeaveReject(security);
+    response.send(res);   
+})
+
+app.post('/housekeeperLeaveAccepp', async (request, response) => {
+    let housekeeper = request.body["housekeeper"];
+    console.log(request.body);
+    let res = await database.housekeeperLeaveAccepp(housekeeper);
+    response.send(res);   
+})
+
+app.post('/housekeeperLeaveReject', async (request, response) => {
+    let housekeeper = request.body["housekeeper"];
+    console.log(request.body);
+    let res = await database.housekeeperLeaveReject(housekeeper);
+    response.send(res);   
+})
+
+//--------------------------------------------------------------------------------------------------------------------------
+
+
+
 
 app.post('/assignSecurity', async (request, response) => {
     let secVal = request.body["secValue"];

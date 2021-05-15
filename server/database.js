@@ -70,12 +70,34 @@ class DatabaseService{
 
 
     
+
     async securityTraining(program, security){
         return this.makeQuery(`INSERT INTO securityTrain(security, event, isaccepted) VALUES("${security}", "${program}", "Pending")`);
     }
     async createEvent(event, building, date, price = 0, name){
         return this.makeQuery(`INSERT INTO event(building_id, event_type, which_date, price, name) VALUES("${building}", "${event}", "${date}", "${price}", "${name}")`);
     }
+//----------------------------------------------------------------------------------------------------
+async securityLeaveAccepp(security){
+    return this.makeQuery(`UPDATE leaveSecurity SET isaccepted = "Accepted" WHERE security = '${security}'`);
+}
+
+async securityLeaveReject(security){
+    return this.makeQuery(`UPDATE leaveSecurity SET isaccepted = "Rejected" WHERE security = '${security}'`);
+}
+async housekeeperLeaveAccepp(housekeeper){
+    return this.makeQuery(`UPDATE leaveHousekeeper SET isaccepted = "Accepted" WHERE housekeeper = '${housekeeper}'`);
+}
+async housekeeperLeaveReject(housekeeper){
+    return this.makeQuery(`UPDATE leaveHousekeeper SET isaccepted = "Rejected" WHERE housekeeper = '${housekeeper}'`);
+}
+//----------------------------------------------------------------------------------------------------------------
+async getHousekeeperLeave(){
+    return this.makeQuery(`SELECT * FROM leaveHousekeeper WHERE leaveHousekeeper.isaccepted = "Pending"`);
+}
+async getSecurityLeave(){
+    return this.makeQuery(`SELECT * FROM leaveSecurity WHERE leaveSecurity.isaccepted = "Pending"`);
+}
 
     async assignSec(security, building){
         return this.makeQuery(`UPDATE securityStaff SET building_to_watch = '${building}' WHERE securitystaff_id = '${security}'`);

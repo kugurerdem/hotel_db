@@ -8,9 +8,10 @@ const SQL_STATEMENTS = [
     "CREATE TABLE IF NOT EXISTS Building (building_id VARCHAR(16) UNIQUE NOT NULL, cor_x INT(10), cor_y INT(10), building_size INT(5))" ,
     "CREATE TABLE IF NOT EXISTS Room (room_id VARCHAR(16), building_id VARCHAR(16), guest_id VARCHAR(16))" ,
     "CREATE TABLE IF NOT EXISTS Event (building_id VARCHAR(16), event_type VARCHAR(16), which_date DATE, price INT(10), name VARCHAR(16))" ,
-    "CREATE TABLE IF NOT EXISTS leaveSecurity (security VARCHAR(16), start DATE, end DATE, isaccepted VARCHAR(7))" ,
+    "CREATE TABLE IF NOT EXISTS leaveSecurity (security VARCHAR(16), start DATE, end DATE, isaccepted VARCHAR(16))" ,
     "CREATE TABLE IF NOT EXISTS leaveHousekeeper (housekeeper VARCHAR(16), start DATE, end DATE, isaccepted VARCHAR(16))" ,
-    "CREATE TABLE IF NOT EXISTS securityTrain (security VARCHAR(16), event VARCHAR(16), isaccepted VARCHAR(7))" ,
+    "CREATE TABLE IF NOT EXISTS securityTrain (security VARCHAR(16), event VARCHAR(16), isaccepted VARCHAR(16))" ,
+    "CREATE TABLE IF NOT EXISTS housekeeperTrain (housekeeper VARCHAR(16), event VARCHAR(16), isaccepted VARCHAR(16))" ,
 ]
 
 module.exports = SQL_STATEMENTS;
