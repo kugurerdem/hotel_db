@@ -24,10 +24,92 @@
         </li>
       </ul>
 </body>
+<br> <br>
+<div class="row justify-content-center"> 
 
+  <div class="col-md-5">
+    <h3> Reservation </h3>
+
+    <label for="example-date-input" class="col-2 col-form-label"> Start:</label>
+    <input class="form-control" type="date" value="2011-08-19" id="start_date">
+
+    <label for="example-date-input" class="col-2 col-form-label"> Finish:</label>
+    <input class="form-control" type="date" value="2011-08-19" id="end_date">
+
+    <label for="example-date-input" class="col-2 col-form-label"> Building: </label>
+    <select class="form-select" aria-label="Default select example" id="building_selector">
+      <option selected>CHOOSE BUILDING </option>
+    </select>
+
+    <label for="example-date-input" class="col-2 col-form-label"> Room: </label>
+    <select class="form-select" aria-label="Default select example" id="room_selector">
+      <option selected>CHOOSE ROOM </option>
+      <option> deneme </option>
+    </select>
+    
+    <br>
+    <button type="submit" class="btn btn-primary" id="reserve">
+      Reserve
+    </button>
+  </div>
+</div>
+
+<script src="../utils.js"> </script>
 <script> 
 
-    
+let building_selector = document.getElementById("building_selector");
+let room_selector = document.getElementById("room_selector");
+
+async function updateBuildingSelector(){
+  // make a query and update
+  let buildings = await getData('http://localhost:5000/building');
+  
+  clearSelector(building_selector);
+  for(let i = 0; i < buildings.length; i++){
+    let building = buildings[i];
+
+    let option = document.createElement("option");
+    option.value = i;
+    option.text = building.building_id;
+    building_selector.add(option);
+  }
+  return buildings;
+}
+
+building_selector.addEventListener("change", async function(){
+  // update room_selector
+  if( this.selectedIndex != 0){
+    let building_name = this.options[this.selectedIndex].text;
+    let rooms = await getData("http://localhost:5000/getRoomByBuilding/"+building_name);
+    updateRoomSelector(rooms);
+  }
+});
+
+function updateRoomSelector(rooms){
+  clearSelector(room_selector);
+  for(let i = 0; i < rooms.length; i++){
+    let room = rooms[i];
+    let option = document.createElement("option");
+    option.text = room.room_id;
+    room_selector.add(option);
+  }
+}
+
+update();
+function update(){
+  updateBuildingSelector();
+}
+
+let reserve_btn = document.getElementById("reserve");
+reserve_btn.addEventListener("click", async function(){
+  let user = getCookie("user");
+  let building = getTextOfSelector("building_selector");
+  let room = getTextOfSelector("room_selector");
+  let start = document.getElementById("start_date").value;
+  let end = document.getElementById("end_date").value;
+  let response = await postData("http://localhost:5000/reserveRoom", { user, building, room, start, end});
+  console.log( response);
+})
 
 </script>
 

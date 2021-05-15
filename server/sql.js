@@ -12,6 +12,7 @@ const SQL_STATEMENTS = [
     "CREATE TABLE IF NOT EXISTS leaveHousekeeper (housekeeper VARCHAR(16), start DATE, end DATE, isaccepted VARCHAR(16))" ,
     "CREATE TABLE IF NOT EXISTS securityTrain (security VARCHAR(16), event VARCHAR(16), isaccepted VARCHAR(16))" ,
     "CREATE TABLE IF NOT EXISTS housekeeperTrain (housekeeper VARCHAR(16), event VARCHAR(16), isaccepted VARCHAR(16))" ,
+    "CREATE TABLE IF NOT EXISTS reservation (user VARCHAR(16), building VARCHAR(16), room VARCHAR(16), start DATE, end DATE)" ,
 ]
 
 module.exports = SQL_STATEMENTS;

@@ -58,7 +58,7 @@ app.get("/securities/:id", async (request, response) => {
         .catch( err => console.log(err) ); 
 })
 
-//-----------------------------------------------------------------------------------------------------------
+
 app.get("/getSecurityLeave", async (request, response) => {
     const result = database.getSecurityLeave();
     result
@@ -86,8 +86,15 @@ app.get("/getHousekeeperTraining", async (request, response) => {
 })
 
 
+app.get("/getRoomByBuilding/:building", async (request, response) => {
+    const result = database.getRoomByBuilding(request.params.building);
+    result
+        .then( data => response.json({ data: data}))
+        .catch( err => console.log(err) ); 
+})
 
-//------------------------------------------------------------------------------------------------------------
+
+
 // POST
 app.post('/userLogin', async (request, response) => {
     let id = request.body["id"];
@@ -121,7 +128,6 @@ app.post('/eventCreate', async (request, response) => {
             return response.status(400).send({ message: "Event could not created"});
         })        
 })
-//LEAVE FORM BUTTONS----------------------------------------------------------------------------------------
 app.post('/securityLeaveAccepp', async (request, response) => {
     let security = request.body["security"];
     console.log(request.body);
@@ -150,8 +156,7 @@ app.post('/housekeeperLeaveReject', async (request, response) => {
     response.send(res);   
 })
 
-//--------------------------------------------------------------------------------------------------------------------------
-//TRINING BUTTONS----------------------------------------------------------------------------------------
+
 app.post('/securityTrainingAccepp', async (request, response) => {
     let security = request.body["security"];
     console.log(request.body);
@@ -180,7 +185,7 @@ app.post('/housekeeperTrainingReject', async (request, response) => {
     response.send(res);   
 })
 
-//--------------------------------------------------------------------------------------------------------------------------
+
 
 
 
@@ -241,6 +246,20 @@ app.post('/buildingRegister', async (request, response) => {
 
     console.log( request.body);
     let res = await database.registerBuilding(name, x, y, size);
+    response.send(res);
+})
+
+
+
+app.post('/reserveRoom', async (request, response) => {
+    let user = request.body["user"];
+    let building = request.body["building"];
+    let room = request.body["room"];
+    let start = request.body["start"];
+    let end = request.body["end"];
+
+    console.log( request.body);
+    let res = await database.reserveRoom(user, building, room, start, end);
     response.send(res);
 })
 

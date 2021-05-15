@@ -63,7 +63,7 @@ class DatabaseService{
         queries.push(this.makeQuery(`INSERT INTO Building(building_id, cor_x, cor_y, building_size) VALUES("${name}", "${x}", "${y}", "${size}")`));
         for(let i = 1; i < (size+1); i++){
             console.log(i);
-            queries.push(this.makeQuery(`INSERT INTO Room(room_id, building_id, guest_id) VALUES("${i}", "${name}", "")`));
+            queries.push(this.makeQuery(`INSERT INTO Room(room_id, building_id, guest_id) VALUES("${i}", "${name}", "empty")`));
         }
         return queries;
     }
@@ -105,7 +105,7 @@ async housekeeperTrainingAccepp(housekeeper){
 async housekeeperTrainingReject(housekeeper){
     return this.makeQuery(`UPDATE housekeeperTrain SET isaccepted = "Rejected" WHERE housekeeper = '${housekeeper}'`);
 }
-//----------------------------------------------------------------------------------------------------------------
+
 async getHousekeeperLeave(){
     return this.makeQuery(`SELECT * FROM housekeeperTrain WHERE housekeeperTrain.isaccepted = "Pending"`);
 }
@@ -118,7 +118,19 @@ async getHousekeeperTraining(){
 async getSecurityTraining(){
     return this.makeQuery(`SELECT * FROM leaveSecurity WHERE leaveSecurity.isaccepted = "Pending"`);
 }
-//-------------------------------------------------------------------------------------------------------------------------
+
+async getRoomByBuilding( building){
+    return this.makeQuery(`SELECT * FROM Room WHERE Room.building_id = '${building}' AND Room.guest_id = 'empty'`);
+}
+
+async reserveRoom(user, building, room, start, end){
+    let queries = []
+    queries.push( this.makeQuery(`INSERT INTO reservation(user, building, room, start, end) VALUES("${user}", "${building}", "${room}", "${start}", "${end}")`) );
+    queries.push( this.makeQuery(`UPDATE Room SET guest_id = "${user}" WHERE building_id = '${building}' AND room_id = '${room}'`) );
+    return queries;
+}
+
+
     async assignSec(security, building){
         return this.makeQuery(`UPDATE securityStaff SET building_to_watch = '${building}' WHERE securitystaff_id = '${security}'`);
     }

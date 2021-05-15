@@ -54,5 +54,12 @@ function getValueOfSelector(selector_id){
 
 function getTextOfSelector(selector_id){
     let selector = document.getElementById(selector_id);
-return selector.options[ getValueOfSelector(selector_id)].text;
+    return selector.options[ getValueOfSelector(selector_id)].text;
 }
+
+function clearSelector(selector){
+    let options = selector.options;
+    for(let i = options.length - 1; options.length > 1; i--){
+      options[i] = null;
+    }
+  }
