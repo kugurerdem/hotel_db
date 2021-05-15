@@ -9,7 +9,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
     </head>
 <body>
-    <ul class="nav justify-content-center">
+    <div class="row">
+      <ul class="nav justify-content-center">
         <li class="nav-item">
           <a class="nav-link disabled" aria-current="page" href="my_reservations.html">My Reservations</a>
         </li>
@@ -23,13 +24,51 @@
           <a class="nav-link" href="new_food_order.html">Give a New Food Order</a>
         </li>
       </ul>
+    </div>
+    <table class="table table-bordered justify-content-center" id="list" >
+      <thead>
+        <tr>
+          <th>Reservation ID</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Building-Room number</th>
+          <th>Location</th>
+        </tr>
+      </thead>
+      
+    </table>
 </body>
 
 <script> 
+  
+  const data = [{reservationid: "65232", startdate: "12,12,2021", enddate: "12,12,2022", roomnumber: "12", location: "middle of nowhere"},
+                {reservationid: "65233", startdate: "12,11,2021", enddate: "12,11,2022", roomnumber: "134", location: "middle of somewhere"}];
+  
+  
+  
+  
 
+  for (let i = 0; i < data.length; i++) {
+    const element = data[i];
+
+    const row = document.createElement("tr");
     
-
-</script>
+    
+    let lis = Object.values(element).map(text => {
+      let li = document.createElement("th");
+      li.textContent = text;
+      return li;
+    });
+    console.log(lis);
+    lis.forEach(li => {
+      row.appendChild(li);
+    });
+    
+    
+    document.getElementById("list").appendChild(row);
+  }
+  const 
+htmlelem = document.createElement("ul");</script>
 
 
 </html>
