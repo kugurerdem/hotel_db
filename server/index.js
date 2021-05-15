@@ -26,7 +26,24 @@ app.get("/", (req, res) => {
 //    .catch( err => console.log(err) ); 
 //})
 
-app.post('/userLogin', async (request, response, next) => {
+app.get("/securitystaff", async (request, response) => {
+    const result = database.getSecurityStaff();
+
+    result
+        .then( data => response.json({ data: data}))
+        .catch( err => console.log(err) ); 
+})
+
+app.get("/building", async (request, response) => {
+    const result = database.getBuilding();
+
+    result
+        .then( data => response.json({ data: data}))
+        .catch( err => console.log(err) ); 
+})
+
+// POST
+app.post('/userLogin', async (request, response) => {
     let id = request.body["id"];
     let password = request.body["password"];
     console.log("Trying to login...");
@@ -41,7 +58,17 @@ app.post('/userLogin', async (request, response, next) => {
         })
 })
 
-// POST
+app.post('/assignSecurity', async (request, response) => {
+    let secVal = request.body["secValue"];
+    let buildVal = request.body["buildingValue"];
+    
+    console.log(request.body);
+    let res = await database.assignSec(secVal, buildVal);
+    response.send(res);   
+}
+
+)
+
 app.post('/userRegister', async (request, response) => {
     let id = request.body["id"];
     let password = request.body["password"];
@@ -60,6 +87,18 @@ app.post('/employeeRegister', async (request, response) => {
 
     console.log( request.body);
     let res = await database.registerEmployee(id, password, type, salary, name);
+    response.send(res);
+})
+
+app.post('/buildingRegister', async (request, response) => {
+    let name = request.body["name"];
+    let x = request.body["x"];
+    let y = request.body["y"];
+    let size = request.body["size"];
+    console.log(size);
+
+    console.log( request.body);
+    let res = await database.registerBuilding(name, x, y, size);
     response.send(res);
 })
 
