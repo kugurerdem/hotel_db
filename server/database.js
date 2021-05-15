@@ -61,6 +61,9 @@ class DatabaseService{
         }
         return queries;
     }
+    async createEvent(event, building, date){
+        return this.makeQuery(`INSERT INTO event(building_id, event_type, which_date) VALUES("${building}", "${event}", "${date}")`);
+    }
 
     async assignSec(security, building){
         return this.makeQuery(`UPDATE securityStaff SET building_to_watch = '${building}' WHERE securitystaff_id = '${security}'`);
