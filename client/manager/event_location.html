@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Hotel Database </title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+    </head>
+<body>
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="housekeeper_order.html"> Housekeeper Order</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"  href="security_building.html">Security Building</a>
+        </li>
+        <li class="nav-item" >
+          <a class="nav-link disabled" href="event_location.html">Event location</a>
+        </li>
+        <li class="nav-item" >
+          <a class="nav-link" href="training_app.html"> Training App </a>
+        </li>
+        <li class="nav-item" >
+            <a class="nav-link" href="request_form.html"> Request Form </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="add_employee.html"> Add Employee </a>
+        </li>
+      </ul>
+
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <br> 
+          <div class="form-group">
+          Event:
+          <div class="col-10">
+            <select class="form-select" aria-label="Default select example" id="event_selector">
+              <option selected>CHOOSE EVENT</option>
+              <option value="1">Guest Activity</option>
+              <option value="2">Group Tour</option>
+              <option value="3">Training Program</option>
+            </select>
+
+
+            
+            <br>
+
+          Building:
+          
+            <select class="row2 form-select" aria-label="Default select example" id="building_selector">
+              <option selected>CHOOSE BUILDING </option>
+            </select>
+          
+          <label for="example-date-input" class="col-2 col-form-label">Date</label>
+          <input class="form-control" type="date" value="2011-08-19" id="date">
+
+          <label for="example-date-input" class="col-2 col-form-label">Price</label>
+          <input class="form-control" value="0" id="price">
+          
+          <br>
+          <button type="submit" class="btn btn-primary" id="create_event">
+              Create Event
+          </button>
+          </div>
+        </div>
+      </div>
+</body>
+<script src="../utils.js"> </script>
+<script> 
+
+  let create_event_btn = document.getElementById("create_event");
+  create_event_btn.addEventListener("click", async function(){
+    let event = getTextOfSelector("event_selector");
+    let building = getTextOfSelector("building_selector");
+    let date = document.getElementById("date").value;
+    let price = document.getElementById("price").value;
+
+    let response = await postData("http://localhost:5000/eventCreate", { event, building, date, price});
+    console.log(event, building, date, price);
+  })
+  
+  function getValueOfSelector(selector_id){
+    let selector = document.getElementById(selector_id);
+    let index = selector.selectedIndex;
+
+    return index;
+  }
+
+  function getTextOfSelector(selector_id){
+    let selector = document.getElementById(selector_id);
+    return selector.options[ getValueOfSelector(selector_id)].text;
+  }
+
+  updateBuildingSelector();
+  async function updateBuildingSelector(){
+    // make a query and update
+    let building_selector = document.getElementById("building_selector");
+    let buildings = await getData('http://localhost:5000/building');
+    
+    // clear
+    for(let i = 0; i < buildings.length; i++){
+      let building = buildings[i];
+
+      let option = document.createElement("option");
+      option.value = i;
+      option.text = building.building_id;
+      building_selector.add(option);
+    }
+    return buildings;
+  }
+</script>
+
+
+</html>

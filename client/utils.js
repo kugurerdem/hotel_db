@@ -17,3 +17,8 @@ async function postData(url = '', data = {}) {
     return response.json(); // parses JSON response into native JavaScript objects
 }
 
+async function getData(url = ''){
+    return fetch(url)
+        .then( (response) => response.json() )
+        .then( (obj) => obj.data )
+}
