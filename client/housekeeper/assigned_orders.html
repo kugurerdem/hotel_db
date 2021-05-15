@@ -34,35 +34,42 @@
                 <th>Status</th>
                 <th>Deliver</th>
             </tr>
-            <tr>
-                <th>Restraunt A</th>
-                <th>Guest A</th>
-                <th>15.25.25</th>
-                <th>Food A</th>
-                <th>Pending</th>
-                <th>Deliver</th>
-            </tr>
-            <tr>
-                <th>Restraunt B</th>
-                <th>Guest B</th>
-                <th>15.25.25</th>
-                <th>Food B</th>
-                <th>Delivered</th>
-                <th>Deliver</th>
-            </tr>
+
         </table>
         <script>
+            const data = [
+                ["rest c",
+                    "jes",
+                    "12,12,2022",
+                    "food y",
+                    "Pending",
+                    "Deliver Button"
+                ]
+
+
+            ];
+            var table = document.getElementById("table");
+            for (var i = 0; i < data.length; i++) {
+                var row = document.createElement('tr');
+                for (var j = 0; j < data[i].length; j++) {
+                    var cell = document.createElement('th');
+                    cell.textContent = data[i][j];
+                    row.appendChild(cell);
+                    // console.log(cell.textContent)
+                }
+                // console.log(row.textContent);
+                // console.log("here  " + document.getElementById("table").textContent + "end");
+                row.bgColor = "black";
+                document.getElementById("table").appendChild(row);
+            }
             var index, table = document.getElementById("table");
             for (var i = 1; i < table.rows.length; i++) {
-                table.rows[i].cells[4].onclick = function() {
+                table.rows[i].cells[5].onclick = function() {
                     var c = confirm("Did you deliver this order?");
-                    var oCells = table.rows.item(i).cells;
-                    var cellVal = oCells.item(3).innerHTML;
-                    alert(cellVal);
-
-                    if (c === true) {
-                        index = this.parentElement.rowIndex;
-                        table.deleteRow(index);
+                    if (c === true && document.getElementById("table").rows[i].cells[4].textContent.localeCompare("Pending")) {
+                        //Deliverrrr
+                        console.log("deliverin")
+                        table.rows[i].cells[4].textContent = "Delivered"
                     }
                 };
 

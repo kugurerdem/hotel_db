@@ -16,45 +16,56 @@
             <a class="nav-link" aria-current="page" href="assigned_orders.html">Assigned Orders</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="training_programs.html">Training Programs</a>
+            <a class="nav-link disabled" aria-current="page" href="training_programs.html">Training Programs</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="my_applications.html">My Applications</a>
         </li>
     </ul>
     <div style="padding-left: 50px;padding-right: 50px;padding-top:100px;" class="container">
-        <h2 class="text-center">My Applications</h2>
+        <h2 class="text-center">Training Programs</h2>
 
-        <table class="table table-dark table-striped table-hover tbl_code_with_mark" id="table">
+        <table class="table  table-dark table-bordered justify-content-center table-striped table-hover tbl_code_with_mark" id="table">
             <tr>
-                <th>Training Name</th>
-                <th>Manager</th>
-                <th>Date</th>
-                <th>Apply</th>
+                <td>Training Name</td>
+                <td>Manager</td>
+                <td>Date</td>
+                <td>Apply</td>
             </tr>
-            <tr>
-                <td>Welcosming</td>
-                <td>Jessica</td>
-                <td>17.05.21</td>
-                <th>Apply</th>
-            </tr>
-            <tr>
-                <td>Welcoafming</td>
-                <td>Jessica</td>
-                <td>17.05.21</td>
-                <th>Apply</th>
-            </tr>
-            <tr>
-                <td>Welcomafing</td>
-                <td>Jessica</td>
-                <td>17.05.21</td>
-                <th>Apply</th>
-            </tr>
+
+
         </table>
+
         <script>
-            var index, table = document.getElementById("table");
+            const data = [
+                ["65232",
+                    "jes",
+                    "12,12,2022",
+                    "appky"
+                ],
+                ["65232",
+                    "jen",
+                    "12,12,2022",
+                    "appky"
+                ]
+
+            ];
+            var table = document.getElementById("table");
+            for (var i = 0; i < data.length; i++) {
+                var row = document.createElement('tr');
+                for (var j = 0; j < data[i].length; j++) {
+                    var cell = document.createElement('td');
+                    cell.textContent = data[i][j];
+                    row.appendChild(cell);
+                    // console.log(cell.textContent)
+                }
+                // console.log(row.textContent);
+                console.log("here  " + document.getElementById("table").textContent + "end");
+                row.bgColor = "black";
+                document.getElementById("table").appendChild(row);
+            }
             for (var i = 1; i < table.rows.length; i++) {
-                table.rows[i].cells[4].onclick = function() {
+                table.rows[i].cells[3].onclick = function() {
                     var c = confirm("Do you want to apply to this training program?");
                     var oCells = table.rows.item(i).cells;
                     var cellVal = oCells.item(3).innerHTML;
@@ -70,7 +81,6 @@
 
 
 </body>
-
 
 
 </html>
