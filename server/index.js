@@ -58,10 +58,25 @@ app.post('/userLogin', async (request, response) => {
         })
 })
 
+app.post('/eventCreate', async (request, response) => {
+    let event = request.body["event"];
+    let building = request.body["building"];
+    let date = request.body["date"];
+
+    database.createEvent(event, building, date)
+        .then( (res) => {
+            console.log(res);
+            response.send(res);
+        })
+        .catch( (err) => {
+            console.log("Event could not created");
+            return response.status(400).send({ message: "Event could not created"});
+        })        
+})
+
 app.post('/assignSecurity', async (request, response) => {
     let secVal = request.body["secValue"];
     let buildVal = request.body["buildingValue"];
-    
     console.log(request.body);
     let res = await database.assignSec(secVal, buildVal);
     response.send(res);   

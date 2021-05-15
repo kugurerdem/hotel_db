@@ -1,7 +1,9 @@
 const mysql = require('mysql');
 const dotenv = require('dotenv');
 const SQL_STATEMENTS = require('./sql.js')
+const Utils = require("./utils.js");
 
+const utils = new Utils();
 dotenv.config();
 
 const connection = mysql.createConnection({
@@ -33,7 +35,7 @@ class DatabaseService{
         let queries = [];
         queries.push( this.makeQuery(`INSERT INTO User(username, password, type) VALUES ("${id}", "${password}", "${type}")`));
         if( type.toLowerCase() == "securitystaff"){
-            queries.push( this.makeQuery(`INSERT INTO securitystaff(securitystaff_id, building_to_watch) VALUES ("${id}", "")`) ); 
+            queries.push( this.makeQuery(`INSERT INTO securitystaff(securitystaff_id, building_to_watch, last_leave) VALUES ("${id}", "", "${utils.currentDate()}")`) ); 
         } 
         else if(type.toLowerCase() == "housekeeper"){
             queries.push( this.makeQuery(`INSERT INTO housekeeper(housekeeper_id) VALUES ("${id}")`) ); 
@@ -60,6 +62,9 @@ class DatabaseService{
             queries.push(this.makeQuery(`INSERT INTO Room(room_id, building_id, guest_id) VALUES("${i}", "${name}", "")`));
         }
         return queries;
+    }
+    async createEvent(event, building, date, price = 0){
+        return this.makeQuery(`INSERT INTO event(building_id, event_type, which_date, price) VALUES("${building}", "${event}", "${date}", "${price}")`);
     }
 
     async assignSec(security, building){
@@ -113,5 +118,6 @@ class DatabaseService{
         }
     }
 }
+
 
 module.exports = DatabaseService;
