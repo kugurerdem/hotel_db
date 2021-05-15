@@ -58,6 +58,14 @@ class DatabaseService{
         return this.makeQuery(`INSERT INTO leaveSecurity(security, start, end, isaccepted) VALUES ("${security}", "${start}", "${end}", "Pending") `);
     }
 
+    
+    async getMyReservation(user){
+        return this.makeQuery(`SELECT * FROM reservation WHERE reservation.user = '${user}' `);
+    }
+    
+    async getMyTickets(user){
+        return this.makeQuery(`SELECT event FROM eventTickets WHERE eventTickets.user = '${user}' `);
+    }
     async registerBuilding(name, x, y, size){
         let queries = []
         queries.push(this.makeQuery(`INSERT INTO Building(building_id, cor_x, cor_y, building_size) VALUES("${name}", "${x}", "${y}", "${size}")`));
@@ -121,6 +129,13 @@ async getSecurityTraining(){
 
 async getRoomByBuilding( building){
     return this.makeQuery(`SELECT * FROM Room WHERE Room.building_id = '${building}' AND Room.guest_id = 'empty'`);
+}
+async getEventsForUser(){
+    return this.makeQuery(`SELECT * FROM event WHERE event.event_type = 'Guest Activity' OR event.event_type = 'Group Tour'`);
+}
+
+async joinEvent(user, event){
+    return this.makeQuery(`INSERT INTO eventTickets(event, user) VALUES("${event}", "${user}")`) ;
 }
 
 async reserveRoom(user, building, room, start, end){

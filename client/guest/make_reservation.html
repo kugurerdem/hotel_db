@@ -17,7 +17,7 @@
           <a class="nav-link disabled" href="make_reservation.html">Make a New Reservation</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="my_food_order.html">My Food Order</a>
+          <a class="nav-link" href="my_food_order.html">My Food Orders</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="new_food_order.html">Give a New Food Order</a>
@@ -26,7 +26,6 @@
 </body>
 <br> <br>
 <div class="row justify-content-center"> 
-
   <div class="col-md-5">
     <h3> Reservation </h3>
 
@@ -53,12 +52,29 @@
     </button>
   </div>
 </div>
+<br> <br>
+<div class="row justify-content-center"> 
+  <div class="col-md-5">
+    <h3> Buy Ticket </h3>
+    <table class="table table-dark table-striped table-hover tbl_code_with_mark" id="ticket_table">
+      <tr>
+        <th>Event name</th>
+        <th>Date</th>
+        <th>Type</th>
+        <th>Building</th>
+        <th>Price</th>
+        <th>Apply</th> 
+      </tr>
+    </table>
+  </div>
+</div>
 
 <script src="../utils.js"> </script>
 <script> 
 
 let building_selector = document.getElementById("building_selector");
 let room_selector = document.getElementById("room_selector");
+let ticket_table = document.getElementById("ticket_table");
 
 async function updateBuildingSelector(){
   // make a query and update
@@ -98,6 +114,7 @@ function updateRoomSelector(rooms){
 update();
 function update(){
   updateBuildingSelector();
+  updateTicketTable();
 }
 
 let reserve_btn = document.getElementById("reserve");
@@ -110,6 +127,47 @@ reserve_btn.addEventListener("click", async function(){
   let response = await postData("http://localhost:5000/reserveRoom", { user, building, room, start, end});
   console.log( response);
 })
+
+async function updateTicketTable(){
+  // Clear table (TO-DO)
+  let tbody = ticket_table.getElementsByTagName("tbody")[0];
+  let events = await getData("http://localhost:5000/getEventsForUser");
+  console.log(events);
+  let user = getCookie("user");
+
+  for(let i = 0; i < events.length; i++){
+    let event = events[i];
+    let { row, buy_button } = createRow([event.name,  event.which_date, event.event_type, event.building_id, event.price]);
+    tbody.append( row );
+
+    buy_button.addEventListener("click", async function(){
+      let response = await postData('http://localhost:5000/joinEvent', { event: event.name, user });
+      alert("You have bought a ticket!");
+      console.log( response);
+    })
+  }
+}
+
+function createRow( arr ){
+    let row = document.createElement("tr");
+    for(let i = 0; i < arr.length; i++){
+      let col = document.createElement("td");
+      col.innerHTML = arr[i];
+      row.appendChild(col);
+    }
+    
+    let col = document.createElement("td");
+    let buy_button = document.createElement("button");
+    buy_button.className = "btn btn-success";
+    buy_button.innerText = "buy";
+    
+    col.append(buy_button);
+    row.appendChild(col);
+
+    return {
+      row, buy_button
+    };
+  }
 
 </script>
 

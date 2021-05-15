@@ -17,12 +17,39 @@
           <a class="nav-link" href="make_reservation.html">Make a New Reservation</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="my_food_order.html">My Food Order</a>
+          <a class="nav-link" href="my_food_order.html">My Food Orders</a>
         </li>
         <li class="nav-item">
           <a class="nav-link disabled" href="new_food_order.html">Give a New Food Order</a>
         </li>
       </ul>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+            <br>
+            <h3 class="text-center">
+                New Food Order
+            </h3>
+            <div class="form-group">
+                        
+                <select class="form-select" aria-label="Default select example" id="restaurant">
+                    <option selected>CHOOSE RESTAURANT</option>
+                    <option value="1">R1</option>
+                    <option value="2">R2</option>
+                    <option value="3">R3</option>
+                </select>
+                <br>
+                <select class="form-select" aria-label="Default select example" id="food">
+                  <option selected>CHOOSE FOOD</option>
+                  <option value="1">F1</option>
+                  <option value="2">F2</option>
+                  <option value="3">F3</option>
+              </select>
+              <br>
+                <button type="submit" class="btn btn-primary" id="add_employee">
+                    Add Employee
+                </button>
+            </div>
+        </div>
 </body>
 
 <script> 

@@ -34,6 +34,15 @@ app.get("/securitystaff", async (request, response) => {
         .catch( err => console.log(err) ); 
 })
 
+
+app.get("/getEventsForUser", async (request, response) => {
+    const result = database.getEventsForUser();
+
+    result
+        .then( data => response.json({ data: data}))
+        .catch( err => console.log(err) ); 
+})
+
 app.get("/building", async (request, response) => {
     const result = database.getBuilding();
 
@@ -88,6 +97,20 @@ app.get("/getHousekeeperTraining", async (request, response) => {
 
 app.get("/getRoomByBuilding/:building", async (request, response) => {
     const result = database.getRoomByBuilding(request.params.building);
+    result
+        .then( data => response.json({ data: data}))
+        .catch( err => console.log(err) ); 
+})
+
+app.get("/getMyReservation/:user", async (request, response) => {
+    const result = database.getMyReservation(request.params.user);
+    result
+        .then( data => response.json({ data: data}))
+        .catch( err => console.log(err) ); 
+})
+
+app.get("/getMyTickets/:user", async (request, response) => {
+    const result = database.getMyTickets(request.params.user);
     result
         .then( data => response.json({ data: data}))
         .catch( err => console.log(err) ); 
@@ -260,6 +283,15 @@ app.post('/reserveRoom', async (request, response) => {
 
     console.log( request.body);
     let res = await database.reserveRoom(user, building, room, start, end);
+    response.send(res);
+})
+
+app.post('/joinEvent', async (request, response) => {
+    let user = request.body["user"];
+    let event = request.body["event"];
+
+    console.log( request.body);
+    let res = await database.joinEvent(user,event);
     response.send(res);
 })
 

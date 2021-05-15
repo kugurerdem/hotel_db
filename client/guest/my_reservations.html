@@ -18,7 +18,7 @@
           <a class="nav-link" href="make_reservation.html">Make a New Reservation</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="my_food_order.html">My Food Order</a>
+          <a class="nav-link" href="my_food_order.html">My Food Orders</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="new_food_order.html">Give a New Food Order</a>
@@ -27,24 +27,67 @@
     </div>
     <div class="row justify-content-center"> 
       <div class="col-md-10">
+        <br>
+        <h3> Reservations </h3>
+        <br> <br>
         <table class="table table-dark table-striped table-hover tbl_code_with_mark" id="reservation_table">
           <tr>
-            <th>Reservation ID</th>
             <th>Start Date</th>
             <th>End Date</th>
-            <th>Building-Room number</th>
-            <th>Location</th>
+            <th>Building number</th>
+            <th>Room number</th>
           </tr>
         </table>
       </div>
     </div>
 
+    <div class="row justify-content-center"> 
+      <div class="col-md-10">
+        <br>
+        <h3> Tickets </h3>
+        <br> <br>
+        <table class="table table-dark table-striped table-hover tbl_code_with_mark" id="ticket_table">
+          <tr>
+            <th>Ticketname</th>
+          </tr>
+        </table>
+      </div>
+    </div>
 </body>
 
+<script src="../utils.js"> </script>
 <script> 
+  let reservation_table = document.getElementById("reservation_table");
+  let ticket_table = document.getElementById("ticket_table");
 
-  function updateTable(){
-    
+  updateReservationTable();
+  async function updateReservationTable(){
+    // Clear table (TO-DO)
+    let tbody = reservation_table.getElementsByTagName("tbody")[0];
+    let reservations = await getData("http://localhost:5000/getMyReservation/"+getCookie("user"));
+    console.log(reservations);
+    let user = getCookie("user");
+
+    for(let i = 0; i < reservations.length; i++){
+      let reservation = reservations[i];
+      let row = createRow([reservation.start, reservation.end, reservation.building, reservation.room]);
+      tbody.append( row );
+    } 
+  }
+
+  updateTicketTable();
+  async function updateTicketTable(){
+    // Clear table (TO-DO)
+    let tbody = ticket_table.getElementsByTagName("tbody")[0];
+    let tickets = await getData("http://localhost:5000/getMyTickets/"+getCookie("user"));
+    console.log(tickets);
+    let user = getCookie("user");
+
+    for(let i = 0; i < tickets.length; i++){
+      let ticket = tickets[i];
+      let row = createRow([ticket.event]);
+      tbody.append( row );
+    } 
   }
 
   function createRow( arr ){
@@ -57,40 +100,6 @@
 
     return row
   }
-/*   <table class="table table-bordered justify-content-center" id="list" >
-        <tr>
-          <th>Reservation ID</th>
-          <th>Start Date</th>
-          <th>End Date</th>
-          <th>Building-Room number</th>
-          <th>Location</th>
-        </tr>
-    </table> 
-
-  const data = [{reservationid: "65232", startdate: "12,12,2021", enddate: "12,12,2022", roomnumber: "12", location: "middle of nowhere"},
-                {reservationid: "65233", startdate: "12,11,2021", enddate: "12,11,2022", roomnumber: "134", location: "middle of somewhere"}];
-  
-  for (let i = 0; i < data.length; i++) {
-    const element = data[i];
-
-    const row = document.createElement("tr");
-    
-    
-    let lis = Object.values(element).map(text => {
-      let li = document.createElement("th");
-      li.textContent = text;
-      return li;
-    });
-    console.log(lis);
-    lis.forEach(li => {
-      row.appendChild(li);
-    });
-    
-    
-    document.getElementById("list").appendChild(row);
-  }
-  const htmlelem = document.createElement("ul");
-  */
 
   </script>
 
