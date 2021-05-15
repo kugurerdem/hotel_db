@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Hotel Database </title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+</head>
+
+<body>
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="assigned_orders.html">Assigned Orders</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="training_programs.html">Training Programs</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="my_applications.html">My Applications</a>
+        </li>
+    </ul>
+    <div style="padding-left: 50px;padding-right: 50px;padding-top:100px;" class="container">
+        <h2 class="text-center">My Applications</h2>
+
+        <table class="table table-dark table-striped table-hover tbl_code_with_mark" id="table">
+            <tr>
+                <th>Training Name</th>
+                <th>Manager</th>
+                <th>Date</th>
+                <th>Apply</th>
+            </tr>
+            <tr>
+                <td>Welcosming</td>
+                <td>Jessica</td>
+                <td>17.05.21</td>
+                <th>Apply</th>
+            </tr>
+            <tr>
+                <td>Welcoafming</td>
+                <td>Jessica</td>
+                <td>17.05.21</td>
+                <th>Apply</th>
+            </tr>
+            <tr>
+                <td>Welcomafing</td>
+                <td>Jessica</td>
+                <td>17.05.21</td>
+                <th>Apply</th>
+            </tr>
+        </table>
+        <script>
+            var index, table = document.getElementById("table");
+            for (var i = 1; i < table.rows.length; i++) {
+                table.rows[i].cells[4].onclick = function() {
+                    var c = confirm("Do you want to apply to this training program?");
+                    var oCells = table.rows.item(i).cells;
+                    var cellVal = oCells.item(3).innerHTML;
+                    alert(cellVal);
+                    if (c === true) {
+                        //apply
+                    }
+                };
+
+            }
+        </script>
+    </div>
+
+
+</body>
+
+
+
+</html>
