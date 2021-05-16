@@ -60,6 +60,9 @@ class DatabaseService{
     async leaveSecurity(security, start, end){
         return this.makeQuery(`INSERT INTO leaveSecurity(security, start, end, isaccepted) VALUES ("${security}", "${start}", "${end}", "Pending") `);
     }
+    async leaveHousekeeper(security, start, end){
+        return this.makeQuery(`INSERT INTO leaveHousekeeper(housekeeper, start, end, isaccepted) VALUES ("${security}", "${start}", "${end}", "Pending") `);
+    }
     
     async managerAssignDelivery(restaurant ,user, housekeeper){
         let queries = []
@@ -105,6 +108,20 @@ class DatabaseService{
         return this.makeQuery(`SELECT event, isaccepted FROM housekeeperTrain WHERE housekeeperTrain.housekeeper = '${housekeeper}'`);
     }
 
+    async getMyLeaveHousekeeper(housekeeper){
+        return this.makeQuery(`SELECT start, end, isaccepted FROM leaveHousekeeper WHERE leaveHousekeeper.housekeeper = '${housekeeper}'`);
+    }
+
+    async getMyTrainingsSecurity(security){
+        return this.makeQuery(`SELECT event, isaccepted FROM securityTrain WHERE securityTrain.security = '${security}'`);
+    }
+
+    async getMyLeaveSecurity(security){
+        return this.makeQuery(`SELECT start, end, isaccepted FROM leaveSecurity WHERE leaveSecurity.security = '${security}'`);
+    }
+
+
+
     async fireHousekeeper(name){
         let queries = []
         queries.push(this.makeQuery(`DELETE FROM User WHERE  User.username = '${name}' `));
@@ -120,8 +137,6 @@ class DatabaseService{
         return queries;
     }
 
-
-    
     async getHousekeepers(){
         return this.makeQuery(`SELECT User.username, Employee.salary FROM User JOIN Employee WHERE User.type = "housekeeper" AND Employee.employee_id = User.username`);
     }
@@ -152,18 +167,18 @@ class DatabaseService{
         return this.makeQuery(`INSERT INTO event(building_id, event_type, which_date, price, name) VALUES("${building}", "${event}", "${date}", "${price}", "${name}")`);
     }
 //----------------------------------------------------------------------------------------------------
-async securityLeaveAccepp(security){
-    return this.makeQuery(`UPDATE leaveSecurity SET isaccepted = "Accepted" WHERE security = '${security}'`);
+async securityLeaveAccepp(security, start, end){
+    return this.makeQuery(`UPDATE leaveSecurity SET isaccepted = "Accepted" WHERE security = '${security}' AND start = '${start}' AND end = '${end}'`);
 }
 
-async securityLeaveReject(security){
-    return this.makeQuery(`UPDATE leaveSecurity SET isaccepted = "Rejected" WHERE security = '${security}'`);
+async securityLeaveReject(security, start, end){
+    return this.makeQuery(`UPDATE leaveSecurity SET isaccepted = "Rejected" WHERE security = '${security}' AND start = '${start}' AND end = '${end}'`);
 }
-async housekeeperLeaveAccepp(housekeeper){
-    return this.makeQuery(`UPDATE leaveHousekeeper SET isaccepted = "Accepted" WHERE housekeeper = '${housekeeper}'`);
+async housekeeperLeaveAccepp(housekeeper, start, end){
+    return this.makeQuery(`UPDATE leaveHousekeeper SET isaccepted = "Accepted" WHERE housekeeper = '${housekeeper}' AND start = '${start}' AND end = '${end}'`);
 }
-async housekeeperLeaveReject(housekeeper){
-    return this.makeQuery(`UPDATE leaveHousekeeper SET isaccepted = "Rejected" WHERE housekeeper = '${housekeeper}'`);
+async housekeeperLeaveReject(housekeeper, start, end){
+    return this.makeQuery(`UPDATE leaveHousekeeper SET isaccepted = "Rejected" WHERE housekeeper = '${housekeeper}' AND start = '${start}' AND end = '${end}'`);
 }
 
 async securityTrainingAccepp(security, eventname){
@@ -240,6 +255,10 @@ async reserveRoom(user, building, room, start, end){
 
     async isSec(id){
         return this.makeQuery(`SELECT * FROM securityStaff WHERE SecurityStaff.securitystaff_id = '${id}'`);
+    }
+    
+    async isHouse(id){
+        return this.makeQuery(`SELECT * FROM Housekeeper WHERE Housekeeper.housekeeper_id = '${id}'`);
     }
 
     async getTrainingEvents(){

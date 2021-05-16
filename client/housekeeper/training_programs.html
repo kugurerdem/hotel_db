@@ -44,6 +44,27 @@
             </button>
         </div>
     </div>
+
+    <div class="row justify-content-center">
+        <br> <br>
+        <div class="col-md-6">
+            <br> <br>
+            <h3> Leave Request Form </h3>
+            Which period of time for do you want to make a leave request? <br>
+
+            <label for="example-date-input" class="col-2 col-form-label">From:</label>
+            <input class="form-control" type="date" value="2011-08-19" id="from_date">
+
+            <label for="example-date-input" class="col-2 col-form-label">To:</label>
+            <input class="form-control" type="date" value="2011-08-19" id="to_date">
+            <br>
+            <button type="submit" class="btn btn-primary" id="leave_request">
+                Leave Request
+            </button>
+        </div>
+    </div>
+
+
 </body>
 <script src="../utils.js"> </script>
 <script>
@@ -81,6 +102,24 @@
     }
 
     updateProgramSelector();
+
+    let leave_request_btn = document.getElementById("leave_request");
+    leave_request_btn.addEventListener("click", async function(){
+        let start = document.getElementById("from_date").value;
+        let end = document.getElementById("to_date").value;
+        let user_id = getCookie("user");
+
+        let response = await getData("http://localhost:5000/housekeepers/"+user_id);
+        if( response.length == 0){
+            alert("You are not a housekeeper");
+        } else{
+            // API CALL
+            let response = await postData("http://localhost:5000/housekeeperLeave", {
+                start, end, housekeeper: user_id
+            })
+            console.log(response);
+        }
+    });
    
 </script>
 

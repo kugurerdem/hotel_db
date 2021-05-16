@@ -78,12 +78,20 @@
       tbody.append( row );
 
       accept_button.addEventListener("click", async function(){
-        let response = await postData('http://localhost:5000/securityLeaveAccepp', { security: sec.security });
+        let response = await postData('http://localhost:5000/securityLeaveAccepp', { 
+          security: sec.security,
+          start: sec.start,
+          end: sec.end
+        });
         console.log( response);
       })
 
       reject_button.addEventListener("click", async function(){
-        let response = await postData('http://localhost:5000/securityLeaveReject', { security: sec.security });
+        let response = await postData('http://localhost:5000/securityLeaveReject', { 
+          security: sec.security,
+          start: sec.start,
+          end: sec.end
+         });
         console.log( response);
       })
     }
@@ -103,12 +111,20 @@
       tbody.append( row );
 
       accept_button.addEventListener("click", async function(){
-        let response = await postData('http://localhost:5000/housekeeperLeaveAccepp', { housekeeper: keeper.housekeeper });
+        let response = await postData('http://localhost:5000/housekeeperLeaveAccepp', { 
+          housekeeper: keeper.housekeeper,
+          start: keeper.start,
+          end: keeper.end
+        });
         console.log( response);
       })
 
       reject_button.addEventListener("click", async function(){
-        let response = await postData('http://localhost:5000/housekeeperLeaveReject', { housekeeper: keeper.housekeeper  });
+        let response = await postData('http://localhost:5000/housekeeperLeaveReject', { 
+          housekeeper: keeper.housekeeper,
+          start: keeper.start,
+          end: keeper.end
+        });
         console.log( response);
       })
     }

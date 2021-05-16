@@ -16,13 +16,10 @@
             <a class="nav-link" href="../login.html">Login Page</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="assigned_orders.html">Assigned Orders</a>
+            <a class="nav-link" aria-current="page" href="security.html"> Home </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="training_programs.html">Training Programs</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="my_applications.html">My Applications</a>
+            <a class="nav-link" href="my_applications.html">My Applications </a>
         </li>
     </ul>
     <div style="padding-left: 50px;padding-right: 50px;padding-top:100px;" class="container">
@@ -59,7 +56,7 @@ async function updateApplicationsTable(){
     // Clear table (TO-DO)
     let tbody = applications_table.getElementsByTagName("tbody")[0];
 
-    let trainingRequests = await getData("http://localhost:5000/getMyTrainingsHousekeeper/"+getCookie("user"));
+    let trainingRequests = await getData("http://localhost:5000/getMyTrainingsSecurity/"+getCookie("user"));
     console.log(trainingRequests);
 
     for(let i = 0; i < trainingRequests.length; i++){
@@ -72,7 +69,7 @@ async function updateApplicationsTable(){
 updateLeaveRequestTable();
 async function updateLeaveRequestTable(){
     let tbody = leaverequests_table.getElementsByTagName("tbody")[0];
-    let leaveRequests = await getData("http://localhost:5000/getMyLeaveHousekeeper/"+getCookie("user"));
+    let leaveRequests = await getData("http://localhost:5000/getMyLeaveSecurity/"+getCookie("user"));
     console.log(leaveRequests);
 
     for(let i = 0; i < leaveRequests.length; i++){

@@ -41,8 +41,7 @@
             <table class="table table-dark table-striped table-hover tbl_code_with_mark" id="security_table">
               <tr>
                   <th>Security ID</th>
-                  <th>Start Date</th>
-                  <th>End Date</th>
+                  <th>Event</th>
                   <th>Status</th>
               </tr>
           </table>
@@ -51,8 +50,7 @@
                 <table class="table table-dark table-striped table-hover tbl_code_with_mark" id="housekeeper_table">
                   <tr>
                       <th>Housekeeper ID</th>
-                      <th>Start Date</th>
-                      <th>End Date</th>
+                      <th>Event</th>
                       <th>Status</th>
                   </tr>
               </table>
@@ -75,7 +73,7 @@
     console.log( trainingRequests);
     for(let i = 0; i < trainingRequests.length; i++){
       let sec = trainingRequests[i];
-      let { row, accept_button, reject_button } = createRow([sec.security, sec.start, sec.end]);
+      let { row, accept_button, reject_button } = createRow([sec.security, sec.event]);
       tbody.append( row );
 
       accept_button.addEventListener("click", async function(){
@@ -100,7 +98,7 @@
 
     for(let i = 0; i < trainingRequests.length; i++){
       let keeper = trainingRequests[i];
-      let { row, accept_button, reject_button } = createRow([keeper.housekeeper, keeper.start, keeper.end]);
+      let { row, accept_button, reject_button } = createRow([keeper.housekeeper, keeper.event]);
       tbody.append( row );
 
       accept_button.addEventListener("click", async function(){
