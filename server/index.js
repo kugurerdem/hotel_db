@@ -239,6 +239,16 @@ app.post('/securityTrainingAccepp', async (request, response) => {
     response.send(res);   
 })
 
+app.post('/userComment', async (request, response) => {
+    let text = request.body["text"];
+    let building = request.body["building"];
+    let room = request.body["room"];
+    let user = request.body["user"];
+    let res = await database.userComment(user, building,room , text);
+    response.send(res);   
+})
+
+
 app.post('/securityTrainingReject', async (request, response) => {
     let security = request.body["security"];
     let event = request.body["event"];

@@ -17,6 +17,7 @@ const SQL_STATEMENTS = [
     "CREATE TABLE IF NOT EXISTS food (food VARCHAR(16) UNIQUE, restaurant VARCHAR(16), price INT(10))" ,
     "CREATE TABLE IF NOT EXISTS foodOrder (restaurant VARCHAR(16), food VARCHAR(16), user VARCHAR(16), housekeeper VARCHAR(16), status VARCHAR(16))" ,
     "CREATE TABLE IF NOT EXISTS eventTickets (event VARCHAR(16), user VARCHAR(16))" ,
+    "CREATE TABLE IF NOT EXISTS comment (user VARCHAR(16), building VARCHAR(16), room VARCHAR(16), comment VARCHAR(200))" ,
 
 
 

@@ -53,6 +53,9 @@ class DatabaseService{
         queries.push( this.makeQuery(`INSERT INTO Employee(employee_id, salary, name) VALUES("${id}", ${salary}, "${name}")`) );
         return queries;
     }
+ async userComment(user, building, room, comment){
+        return this.makeQuery(`INSERT INTO comment(user, building, room, comment) VALUES ("${user}", "${building}", "${room}", "${comment}")`);
+    }
 
     async leaveSecurity(security, start, end){
         return this.makeQuery(`INSERT INTO leaveSecurity(security, start, end, isaccepted) VALUES ("${security}", "${start}", "${end}", "Pending") `);

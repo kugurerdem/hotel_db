@@ -41,17 +41,6 @@
             <th>Room number</th>
             <th>Submit Comment Button</th>
           </tr>
-          <tr>
-            <th>date1</th>
-            <th>date2</th>
-            <th>Buildingno1</th>
-            <th>Roomno1</th>
-            <th>
-              <button type="submit" class="btn btn-primary" id="SubmitComment">
-              Submit Comment
-              </button>
-            </th>
-          </tr>
         </table>
       </div>
     </div>
@@ -96,6 +85,28 @@
     for(let i = 0; i < reservations.length; i++){
       let reservation = reservations[i];
       let row = createRow([reservation.start, reservation.end, reservation.building, reservation.room]);
+
+      let col = document.createElement("td");
+      let btn = document.createElement("button");
+      btn.className = "btn btn-primary";
+      btn.innerText = "Submit Comment";
+      col.append( btn);
+      row.appendChild( col);
+
+      btn.addEventListener("click", async function(){
+        let comment = document.getElementById("commentText").value;
+        let response = await postData( "http://localhost:5000/userComment", { 
+          user: getCookie("user"), 
+          building: reservation.building, 
+          room: reservation.room, 
+          text: comment
+        });
+
+        console.log( response);
+        document.getElementById("commentText").value = "";
+        alert("Comment submited");
+      })
+
       tbody.append( row );
     } 
   }
@@ -122,7 +133,7 @@
       col.innerHTML = arr[i];
       row.appendChild(col);
     }
-
+    
     return row
   }
 
