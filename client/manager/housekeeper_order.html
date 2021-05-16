@@ -10,6 +10,9 @@
     </head>
 <body>
     <ul class="nav justify-content-center">
+      <li class="nav-item">
+        <a class="nav-link" href="../login.html">Login Page</a>
+    </li>
         <li class="nav-item">
           <a class="nav-link disabled" aria-current="page" href="housekeeper_order.html"> Housekeeper Order</a>
         </li>
@@ -37,33 +40,97 @@
           <table class="table table-dark table-striped table-hover tbl_code_with_mark" id="reservation_table">
             <tr>
               <th>Restaurant</th>
-              <th>Food</th>
-              <th>Housekeeper</th>
+              <th>User</th>
               <th>Status</th>
+              <th>Housekeeper</th>
+              <th>Sign Housekeeper</th>
               <th>Submit</th>
-            </tr>
-            <tr>
-              <th>R1</th>
-              <th>F1</th>
-              <th>
-                <select class="form-select" aria-label="Default select example" id="housekeeper_selector">
-                <option selected>CHOOSE HOUSEKEEPER</option>
-              </select></th>
-              <th>Pending</th>
-              <th>
-                <button type="submit" class="btn btn-primary" id="assign">
-                Assign
-                </button>
-              </th>
             </tr>
           </table>
         </div>
 </body>
 
+<script src="../utils.js"> </script>
 <script> 
+  let table = document.getElementById("reservation_table");
 
+
+  updateTable();
+  async function updateTable(){
+    let tbody = table.getElementsByTagName("tbody")[0];
+
+    let housekeepers = await getData("http://localhost:5000/getHousekeepers");
+    let foodorders = await getData("http://localhost:5000/getAllFoodOrders");
+    console.log(housekeepers);
+    console.log(foodorders);
+    for(let i = 0; i < foodorders.length; i++){
+      let foodorder = foodorders[i];
+      let { row, selector, btn} = createRow([foodorder.restaurant, foodorder.user, foodorder.status, foodorder.housekeeper], housekeepers);
+      tbody.append( row);
+
+      if( foodorder.housekeeper != "-"){
+        
+      }
+
+      btn.addEventListener("click", async function(){
+        if( selector.selectedIndex == 0){
+          alert("Choose an housekeeper!");
+        } else{
+          let params = {
+            restaurant: foodorder.restaurant,
+            user: foodorder.user,
+            housekeeper: selector.options[selector.selectedIndex].text
+          }
+          let response = await postData("http://localhost:5000/managerAssignDelivery", params);
+          alert("Housekeeper assigned");
+        }
+      })
+    }
+  }
+
+  function createRow(arr, housekeepers){    
+    console.log(housekeepers);
+    // Restaurant, User, Housekeeper Selector, Status, Submit
+
+    let row = document.createElement("tr");
+    for(let i = 0; i < arr.length; i++){
+      let col = document.createElement("th");
+      col.innerHTML = arr[i];
+      row.appendChild(col);
+    }
+
+    let col = document.createElement("th");
+    let selector = createSelector("CHOOSE HOUSEKEEPER", housekeepers.map( (obj) => obj.housekeeper_id));
+    col.append( selector);
+    row.appendChild( col);
     
+    col = document.createElement("th");
+    let btn = document.createElement("button");
+    btn.className = "btn btn-primary";
+    btn.innerText = "Assign";
+    col.append(btn);
+    row.appendChild(col);
 
+    return {row, selector, btn}
+  }
+
+  function createSelector(initial, arr){
+    let selector = document.createElement("select");
+    selector.className = "form-select";
+    selector.ariaLabel = "Default select example";
+    let first_option = document.createElement("option");
+    first_option.value = 0;
+    first_option.text = initial;
+    selector.add(first_option);
+
+    for(let i = 0; i < arr.length; i++){
+      let option = document.createElement("option");
+      option.text = arr[i];
+      selector.add(option);
+    }
+
+    return selector;
+  }
 </script>
 
 

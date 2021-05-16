@@ -13,6 +13,9 @@
 <body>
     <ul class="nav justify-content-center">
         <li class="nav-item">
+            <a class="nav-link" href="../login.html">Login Page</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" aria-current="page" href="assigned_orders.html">Assigned Orders</a>
         </li>
         <li class="nav-item">
@@ -29,57 +32,94 @@
             <tr>
                 <th>Restraunt Name</th>
                 <th>Guest Name</th>
-                <th>Date</th>
                 <th>Food Name</th>
                 <th>Status</th>
                 <th>Deliver</th>
             </tr>
-
         </table>
-        <script>
-            const data = [
-                ["rest c",
-                    "jes",
-                    "12,12,2022",
-                    "food y",
-                    "Pending",
-                    "Deliver Button"
-                ]
-
-
-            ];
-            var table = document.getElementById("table");
-            for (var i = 0; i < data.length; i++) {
-                var row = document.createElement('tr');
-                for (var j = 0; j < data[i].length; j++) {
-                    var cell = document.createElement('th');
-                    cell.textContent = data[i][j];
-                    row.appendChild(cell);
-                    // console.log(cell.textContent)
-                }
-                // console.log(row.textContent);
-                // console.log("here  " + document.getElementById("table").textContent + "end");
-                row.bgColor = "black";
-                document.getElementById("table").appendChild(row);
-            }
-            var index, table = document.getElementById("table");
-            for (var i = 1; i < table.rows.length; i++) {
-                table.rows[i].cells[5].onclick = function() {
-                    var c = confirm("Did you deliver this order?");
-                    if (c === true && document.getElementById("table").rows[i].cells[4].textContent.localeCompare("Pending")) {
-                        //Deliverrrr
-                        console.log("deliverin")
-                        table.rows[i].cells[4].textContent = "Delivered"
-                    }
-                };
-
-            }
-        </script>
     </div>
-
-
 </body>
 
+<script src="../utils.js"> </script>
+<script>
+    let table = document.getElementById("table");
+
+    updateTable();
+    async function updateTable(){
+        // Clear table (TO-DO)
+        let tbody = table.getElementsByTagName("tbody")[0];
+        let deliveries = await getData( 'http://localhost:5000/whatToDeliver/' + getCookie("user"));
+        console.log(deliveries);
+        for(let i = 0; i < deliveries.length; i++){
+            let delivery = deliveries[i];
+            let {row, button} = createRow([delivery.restaurant, delivery.user, delivery.food, delivery.status]);
+            tbody.append( row );
+
+            button.addEventListener("click", async function(){
+                let response = await postData( "http://localhost:5000/completeFoodOrder", { 
+                    restaurant: delivery.restaurant, 
+                    guest: delivery.user, 
+                    housekeeper: getCookie("user")
+                });
+                console.log(response);
+            })
+        }
+    }
+
+    function createRow( arr ){
+        let row = document.createElement("tr");
+        for(let i = 0; i < arr.length; i++){
+            let col = document.createElement("td");
+            col.innerHTML = arr[i];
+            row.appendChild(col);
+        }
+
+        let col = document.createElement("td");
+        let button = document.createElement("button");
+        button.className = "btn btn-primary";
+        button.innerText = "Completed";
+        col.append(button);
+        row.appendChild(col);
+        
+        return {row, button};
+    }
+
+    /* 
+      const data = [
+        ["rest c",
+            "jes",
+            "food y",
+            "Pending",
+            "Deliver Button"
+        ]
+    ];
+
+    var table = document.getElementById("table");
+    for (var i = 0; i < data.length; i++) {
+        var row = document.createElement('tr');
+        for (var j = 0; j < data[i].length; j++) {
+            var cell = document.createElement('th');
+            cell.textContent = data[i][j];
+            row.appendChild(cell);
+            // console.log(cell.textContent)
+        }
+        // console.log(row.textContent);
+        // console.log("here  " + document.getElementById("table").textContent + "end");
+        row.bgColor = "black";
+        document.getElementById("table").appendChild(row);
+    }
+    var index, table = document.getElementById("table");
+    for (var i = 1; i < table.rows.length; i++) {
+        table.rows[i].cells[5].onclick = function() {
+            var c = confirm("Did you deliver this order?");
+            if (c === true && document.getElementById("table").rows[i].cells[4].textContent.localeCompare("Pending")) {
+                //Deliverrrr
+                console.log("deliverin")
+                table.rows[i].cells[4].textContent = "Delivered"
+            }
+        }
+    } */
+</script>
 
 
 </html>

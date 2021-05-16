@@ -14,7 +14,7 @@ const SQL_STATEMENTS = [
     "CREATE TABLE IF NOT EXISTS housekeeperTrain (housekeeper VARCHAR(16), event VARCHAR(16), isaccepted VARCHAR(16))" ,
     "CREATE TABLE IF NOT EXISTS reservation (user VARCHAR(16), building VARCHAR(16), room VARCHAR(16), start DATE, end DATE)" ,
     "CREATE TABLE IF NOT EXISTS restaurant (restaurant VARCHAR(16) UNIQUE)" ,
-    "CREATE TABLE IF NOT EXISTS food (food VARCHAR(16) UNIQUE, restaurant VARCHAR(16))" ,
+    "CREATE TABLE IF NOT EXISTS food (food VARCHAR(16) UNIQUE, restaurant VARCHAR(16), price INT(10))" ,
     "CREATE TABLE IF NOT EXISTS foodOrder (restaurant VARCHAR(16), food VARCHAR(16), user VARCHAR(16), housekeeper VARCHAR(16), status VARCHAR(16))" ,
     "CREATE TABLE IF NOT EXISTS eventTickets (event VARCHAR(16), user VARCHAR(16))" ,
 
@@ -22,10 +22,10 @@ const SQL_STATEMENTS = [
 
     "INSERT INTO restaurant(restaurant) VALUES( 'kebabci')",
     "INSERT INTO restaurant(restaurant) VALUES( 'tatlici')",
-    "INSERT INTO food(food, restaurant) VALUES( 'baklava', 'tatlici')",
-    "INSERT INTO food(food, restaurant) VALUES( 'katmer', 'tatlici')",
-    "INSERT INTO food(food, restaurant) VALUES( 'adana', 'kebabci')",
-    "INSERT INTO food(food, restaurant) VALUES( 'urfa', 'kebabci')",
+    "INSERT INTO food(food, restaurant, price) VALUES( 'baklava', 'tatlici', 3)",
+    "INSERT INTO food(food, restaurant, price) VALUES( 'katmer', 'tatlici', 2)",
+    "INSERT INTO food(food, restaurant, price) VALUES( 'adana', 'kebabci', 1)",
+    "INSERT INTO food(food, restaurant, price) VALUES( 'urfa', 'kebabci', 4)",
 
 
 ]

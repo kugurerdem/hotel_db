@@ -13,6 +13,9 @@
 <body>
     <ul class="nav justify-content-center">
         <li class="nav-item">
+            <a class="nav-link" href="../login.html">Login Page</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" aria-current="page" href="assigned_orders.html">Assigned Orders</a>
         </li>
         <li class="nav-item">
@@ -22,65 +25,63 @@
             <a class="nav-link" href="my_applications.html">My Applications</a>
         </li>
     </ul>
-    <div style="padding-left: 50px;padding-right: 50px;padding-top:100px;" class="container">
-        <h2 class="text-center">Training Programs</h2>
+    <div class="row justify-content-center">
+        <br> <br>
+        <div class="col-md-6">
+            <br> <br>
+            <h3> Apply for a Program </h3>
 
-        <table class="table  table-dark table-bordered justify-content-center table-striped table-hover tbl_code_with_mark" id="table">
-            <tr>
-                <td>Training Name</td>
-                <td>Manager</td>
-                <td>Date</td>
-                <td>Apply</td>
-            </tr>
+            <label for="example-date-input" class="col-4 col-form-label">Choose Program</label>
+            <div class="col-md-4">
+                <select class="form-select" aria-label="Default select example" id="program_selector">
+                    <option selected>CHOOSE PROGRAM</option>
+                </select>
+            </div>
 
-
-        </table>
-
-        <script>
-            const data = [
-                ["65232",
-                    "jes",
-                    "12,12,2022",
-                    "appky"
-                ],
-                ["65232",
-                    "jen",
-                    "12,12,2022",
-                    "appky"
-                ]
-
-            ];
-            var table = document.getElementById("table");
-            for (var i = 0; i < data.length; i++) {
-                var row = document.createElement('tr');
-                for (var j = 0; j < data[i].length; j++) {
-                    var cell = document.createElement('td');
-                    cell.textContent = data[i][j];
-                    row.appendChild(cell);
-                    // console.log(cell.textContent)
-                }
-                // console.log(row.textContent);
-                console.log("here  " + document.getElementById("table").textContent + "end");
-                row.bgColor = "black";
-                document.getElementById("table").appendChild(row);
-            }
-            for (var i = 1; i < table.rows.length; i++) {
-                table.rows[i].cells[3].onclick = function() {
-                    var c = confirm("Do you want to apply to this training program?");
-                    var oCells = table.rows.item(i).cells;
-                    var cellVal = oCells.item(3).innerHTML;
-                    alert(cellVal);
-                    if (c === true) {
-                        //apply
-                    }
-                };
-
-            }
-        </script>
+            <br>
+            <button type="submit" class="btn btn-primary" id="apply_btn">
+                Apply For
+            </button>
+        </div>
     </div>
-
-
 </body>
+<script src="../utils.js"> </script>
+<script>
+    let apply_btn = document.getElementById("apply_btn");
+    apply_btn.addEventListener("click", async function(){
+        if( getValueOfSelector("program_selector") == 0){
+            alert("Choose a program first");
+        } else{
+            let program = getTextOfSelector("program_selector");
+            let housekeeper = getCookie("user");
 
+            let response = await postData("http://localhost:5000/trainingHousekeeper", {
+                program, housekeeper
+            })
+            console.log(response);
+        }
+    })
+
+    // updateProgramSelector();
+    async function updateProgramSelector(){
+        // make a query and update
+        let program_selector = document.getElementById("program_selector");
+        let programs = await getData("http://localhost:5000/trainingEvents");
+        
+        // clear
+        for(let i = 0; i < programs.length; i++){
+            let program = programs[i];
+
+            let option = document.createElement("option");
+            option.value = i;
+            option.text = program.name;
+            program_selector.add(option);
+        }
+        return programs;
+    }
+
+    updateProgramSelector();
+   
+</script>
 
 </html>

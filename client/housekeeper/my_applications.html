@@ -13,6 +13,9 @@
 <body>
     <ul class="nav justify-content-center">
         <li class="nav-item">
+            <a class="nav-link" href="../login.html">Login Page</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" aria-current="page" href="assigned_orders.html">Assigned Orders</a>
         </li>
         <li class="nav-item">
@@ -28,46 +31,43 @@
         <table class="table table-dark table-striped table-hover tbl_code_with_mark" id="table">
             <tr>
                 <th>Training Name</th>
-                <th>Manager</th>
-                <th>Date</th>
                 <th>Status</th>
             </tr>
-
         </table>
     </div>
-    <script>
-        const data = [
-            ["Welcome",
-                "jes",
-                "12,12,2022",
-                "Pending"
-            ],
-            ["Cleaning",
-                "jen",
-                "12,12,2022",
-                "Accepted"
-            ]
-
-        ];
-        var table = document.getElementById("table");
-        for (var i = 0; i < data.length; i++) {
-            var row = document.createElement('tr');
-            for (var j = 0; j < data[i].length; j++) {
-                var cell = document.createElement('th');
-                cell.textContent = data[i][j];
-                row.appendChild(cell);
-                // console.log(cell.textContent)
-            }
-            // console.log(row.textContent);
-            console.log("here  " + document.getElementById("table").textContent + "end");
-            row.bgColor = "black";
-            document.getElementById("table").appendChild(row);
-        }
-    </script>
-
 </body>
 
+<script src="../utils.js"> </script>
+<script>
 
+let table = document.getElementById("table");
+
+updateTable();
+async function updateTable(){
+    // Clear table (TO-DO)
+    let tbody = table.getElementsByTagName("tbody")[0];
+
+    let trainingRequests = await getData("http://localhost:5000/getMyTrainingsHousekeeper/"+getCookie("user"));
+    console.log(trainingRequests);
+
+    for(let i = 0; i < trainingRequests.length; i++){
+        let training = trainingRequests[i];
+        let row = createRow([training.event, training.isaccepted]);
+        tbody.append( row );
+    }
+}
+
+function createRow( arr ){
+    let row = document.createElement("tr");
+    for(let i = 0; i < arr.length; i++){
+        let col = document.createElement("td");
+        col.innerHTML = arr[i];
+        row.appendChild(col);
+    }
+
+    return row;
+}
+</script>
 
 
 </html>

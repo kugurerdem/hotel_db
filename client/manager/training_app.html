@@ -10,6 +10,9 @@
     </head>
 <body>
     <ul class="nav justify-content-center">
+      <li class="nav-item">
+        <a class="nav-link" href="../login.html">Login Page</a>
+    </li>
         <li class="nav-item">
           <a class="nav-link" aria-current="page" href="housekeeper_order.html"> Housekeeper Order</a>
         </li>
@@ -73,12 +76,12 @@
       tbody.append( row );
 
       accept_button.addEventListener("click", async function(){
-        let response = await postData('http://localhost:5000/securityTrainingAccepp', { security: sec.security });
+        let response = await postData('http://localhost:5000/securityTrainingAccepp', { security: sec.security, event: sec.event });
         console.log( response);
       })
 
       reject_button.addEventListener("click", async function(){
-        let response = await postData('http://localhost:5000/securityTrainingReject', { security: sec.security });
+        let response = await postData('http://localhost:5000/securityTrainingReject', { security: sec.security, event: sec.event  });
         console.log( response);
       })
     }
@@ -98,12 +101,12 @@
       tbody.append( row );
 
       accept_button.addEventListener("click", async function(){
-        let response = await postData('http://localhost:5000/housekeeperTrainingAccepp', { housekeeper: keeper.housekeeper });
+        let response = await postData('http://localhost:5000/housekeeperTrainingAccepp', { housekeeper: keeper.housekeeper, event: keeper.event });
         console.log( response);
       })
 
       reject_button.addEventListener("click", async function(){
-        let response = await postData('http://localhost:5000/housekeeperTrainingReject', { housekeeper: keeper.housekeeper  });
+        let response = await postData('http://localhost:5000/housekeeperTrainingReject', { housekeeper: keeper.housekeeper, event: keeper.event  });
         console.log( response);
       })
     }

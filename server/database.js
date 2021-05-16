@@ -57,7 +57,13 @@ class DatabaseService{
     async leaveSecurity(security, start, end){
         return this.makeQuery(`INSERT INTO leaveSecurity(security, start, end, isaccepted) VALUES ("${security}", "${start}", "${end}", "Pending") `);
     }
-
+    
+    async managerAssignDelivery(restaurant ,user, housekeeper){
+        let queries = []
+        queries.push(this.makeQuery(`UPDATE foodOrder SET status = 'Delivering'  WHERE restaurant = '${restaurant}' AND user = '${user}' `));
+        queries.push(this.makeQuery(`UPDATE foodOrder SET housekeeper = '${housekeeper}' WHERE restaurant = '${restaurant}' AND user = '${user}' `));
+        return queries;
+    }
     
     async getMyReservation(user){
         return this.makeQuery(`SELECT * FROM reservation WHERE reservation.user = '${user}' `);
@@ -66,12 +72,38 @@ class DatabaseService{
     async getMyTickets(user){
         return this.makeQuery(`SELECT event FROM eventTickets WHERE eventTickets.user = '${user}' `);
     }
+    
+    async whatToDeliver(housekeeper){
+        return this.makeQuery(`SELECT * FROM foodOrder WHERE housekeeper = '${housekeeper}' AND Status = "Delivering"`);
+    }
+    async completeFoodOrder(restaurant, guest, housekeeper){
+        return this.makeQuery(`UPDATE foodOrder SET status = 'Completed'  WHERE housekeeper = '${housekeeper}' AND   user = '${guest}' AND restaurant = '${restaurant}' `);
+    }
+    
 
     async getMyFoodOrders(user){
         return this.makeQuery(`SELECT restaurant, food, housekeeper, status FROM foodOrder WHERE foodOrder.user = '${user}' `);
     }
+    
+    async getHousekeepers(){
+        return this.makeQuery(`SELECT * FROM Housekeeper`);
+    }
 
     
+    async trainingHousekeeper(program, housekeeper){
+        return this.makeQuery(`INSERT INTO housekeeperTrain(housekeeper, event, isaccepted) VALUES("${housekeeper}", "${program}", "Pending")`);
+    }
+    
+    async getAllFoodOrders(){
+        return this.makeQuery(`SELECT restaurant, user, housekeeper, status FROM foodOrder WHERE foodOrder.status = "Delivering" OR foodOrder.user = "Preparing"`);
+    }
+    
+    async getMyTrainingsHousekeeper(housekeeper){
+        return this.makeQuery(`SELECT event, isaccepted FROM housekeeperTrain WHERE housekeeperTrain.housekeeper = '${housekeeper}'`);
+    }
+    
+
+
 
 
     async registerBuilding(name, x, y, size){
@@ -110,22 +142,22 @@ async housekeeperLeaveReject(housekeeper){
     return this.makeQuery(`UPDATE leaveHousekeeper SET isaccepted = "Rejected" WHERE housekeeper = '${housekeeper}'`);
 }
 
-async securityTrainingAccepp(security){
-    return this.makeQuery(`UPDATE securityTrain SET isaccepted = "Accepted" WHERE security = '${security}'`);
+async securityTrainingAccepp(security, eventname){
+    return this.makeQuery(`UPDATE securityTrain SET isaccepted = "Accepted" WHERE security = '${security}' AND event = '${eventname}'`);
 }
 
-async securityTrainingReject(security){
-    return this.makeQuery(`UPDATE securityTrain SET isaccepted = "Rejected" WHERE security = '${security}'`);
+async securityTrainingReject(security, eventname){
+    return this.makeQuery(`UPDATE securityTrain SET isaccepted = "Rejected" WHERE security = '${security}' AND event = '${eventname}'`);
 }
-async housekeeperTrainingAccepp(housekeeper){
-    return this.makeQuery(`UPDATE housekeeperTrain SET isaccepted = "Accepted" WHERE housekeeper = '${housekeeper}'`);
+async housekeeperTrainingAccepp(housekeeper, eventname){
+    return this.makeQuery(`UPDATE housekeeperTrain SET isaccepted = "Accepted" WHERE housekeeper = '${housekeeper}' AND event = '${eventname}'`);
 }
-async housekeeperTrainingReject(housekeeper){
-    return this.makeQuery(`UPDATE housekeeperTrain SET isaccepted = "Rejected" WHERE housekeeper = '${housekeeper}'`);
+async housekeeperTrainingReject(housekeeper, eventname){
+    return this.makeQuery(`UPDATE housekeeperTrain SET isaccepted = "Rejected" WHERE housekeeper = '${housekeeper}' AND event = '${eventname}'`);
 }
 
 async getHousekeeperLeave(){
-    return this.makeQuery(`SELECT * FROM housekeeperTrain WHERE housekeeperTrain.isaccepted = "Pending"`);
+    return this.makeQuery(`SELECT * FROM leaveHousekeeper WHERE leaveHousekeeper.isaccepted = "Pending"`);
 }
 
 async getRestaurantsForUser(){
@@ -137,13 +169,13 @@ async getMenuByRestaurant(restaurant){
 }
 
 async getSecurityLeave(){
-    return this.makeQuery(`SELECT * FROM securityTrain WHERE securityTrain.isaccepted = "Pending"`);
+    return this.makeQuery(`SELECT * FROM leaveSecurity WHERE leaveSecurity.isaccepted = "Pending"`);
 }
 async getHousekeeperTraining(){
-    return this.makeQuery(`SELECT * FROM leaveHousekeeper WHERE leaveHousekeeper.isaccepted = "Pending"`);
+    return this.makeQuery(`SELECT * FROM housekeeperTrain WHERE housekeeperTrain.isaccepted = "Pending"`);
 }
 async getSecurityTraining(){
-    return this.makeQuery(`SELECT * FROM leaveSecurity WHERE leaveSecurity.isaccepted = "Pending"`);
+    return this.makeQuery(`SELECT * FROM securityTrain WHERE securityTrain.isaccepted = "Pending"`);
 }
 
 async getRoomByBuilding( building){

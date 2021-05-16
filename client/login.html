@@ -54,7 +54,7 @@
             console.log( response.message);
             alert( response.message);
         } else{       
-            document.cookie = "user=" + response.username; // <- we are using cookies here
+            setCookie("user", response.username) // <- we are using cookies here
             if(user_type == "guest"){
                 console.log("user type is guest");
                 document.location = "./guest/make_reservation.html"
@@ -62,10 +62,12 @@
                 console.log("user type is manager");
                 document.location = "./manager/manager.html"
             } else if (user_type == "securitystaff"){
-                //document.location = ""
-                // console.log("user type is guest");
+                console.log("user type is securitystaff");
+                document.location = "./securityStaff/security.html"
             } else  if(user_type == "housekeeper"){
                 // console.log("user type is guest");
+                console.log("user type is housekeeper");
+                document.location = "./housekeeper/assigned_orders.html"
             }
         }        
     })

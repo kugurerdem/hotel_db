@@ -34,6 +34,22 @@ app.get("/securitystaff", async (request, response) => {
         .catch( err => console.log(err) ); 
 })
 
+app.get("/getHousekeepers", async (request, response) => {
+    const result = database.getHousekeepers();
+
+    result
+        .then( data => response.json({ data: data}))
+        .catch( err => console.log(err) ); 
+})
+
+app.get("/getAllFoodOrders", async (request, response) => {
+    const result = database.getAllFoodOrders();
+   
+    result  
+        .then( data => response.json({ data: data}))  
+        .catch( err => console.log(err) );  
+})
+
 
 app.get("/getEventsForUser", async (request, response) => {
     const result = database.getEventsForUser();
@@ -122,6 +138,14 @@ app.get("/getMyTickets/:user", async (request, response) => {
         .catch( err => console.log(err) ); 
 })
 
+app.get("/whatToDeliver/:housekeeper", async (request, response) => {
+    const result = database.whatToDeliver(request.params.housekeeper);
+    result
+        .then( data => response.json({ data: data}))
+        .catch( err => console.log(err) ); 
+})
+
+
 app.get("/getRestaurantsForUser", async (request, response) => {
     const result = database.getRestaurantsForUser();
     result
@@ -136,6 +160,13 @@ app.get("/getMenuByRestaurant/:restaurant", async (request, response) => {
         .catch( err => console.log(err) ); 
 })
 
+
+app.get("/getMyTrainingsHousekeeper/:housekeeper", async (request, response) => {
+    const result = database.getMyTrainingsHousekeeper(request.params.housekeeper);
+    result
+        .then( data => response.json({ data: data}))
+        .catch( err => console.log(err) ); 
+})
 
 
 // POST
@@ -202,29 +233,32 @@ app.post('/housekeeperLeaveReject', async (request, response) => {
 
 app.post('/securityTrainingAccepp', async (request, response) => {
     let security = request.body["security"];
+    let event = request.body["event"];
     console.log(request.body);
-    let res = await database.securityTrainingAccepp(security);
+    let res = await database.securityTrainingAccepp(security, event);
     response.send(res);   
 })
 
 app.post('/securityTrainingReject', async (request, response) => {
     let security = request.body["security"];
-    console.log(request.body);
-    let res = await database.securityTrainingReject(security);
+    let event = request.body["event"];
+    let res = await database.securityTrainingReject(security, event);
     response.send(res);   
 })
 
 app.post('/housekeeperTrainingAccepp', async (request, response) => {
     let housekeeper = request.body["housekeeper"];
+    let event = request.body["event"];
     console.log(request.body);
-    let res = await database.housekeeperTrainingAccepp(housekeeper);
+    let res = await database.housekeeperTrainingAccepp(housekeeper, event);
     response.send(res);   
 })
 
 app.post('/housekeeperTrainingReject', async (request, response) => {
     let housekeeper = request.body["housekeeper"];
+    let event = request.body["event"];
     console.log(request.body);
-    let res = await database.housekeeperTrainingReject(housekeeper);
+    let res = await database.housekeeperTrainingReject(housekeeper, event);
     response.send(res);   
 })
 
@@ -260,6 +294,14 @@ app.post('/securityLeave', async (request, response) => {
     response.send(res);
 })
 
+app.post('/completeFoodOrder', async (request, response) => {
+    let restaurant = request.body["restaurant"];
+    let guest = request.body["guest"];
+    let housekeeper = request.body["housekeeper"];
+    let res = await database.completeFoodOrder(restaurant, guest, housekeeper);
+    response.send(res);
+})
+
 app.post('/trainingSecurity', async (request, response) => {
     let program = request.body["program"];
     let security = request.body["security"];
@@ -267,6 +309,15 @@ app.post('/trainingSecurity', async (request, response) => {
     let res = await database.securityTraining(program, security);
     response.send(res);
 })
+
+app.post('/trainingHousekeeper', async (request, response) => {
+    let program = request.body["program"];
+    let housekeeper = request.body["housekeeper"];
+    console.log( request.body);
+    let res = await database.trainingHousekeeper(program, housekeeper);
+    response.send(res);
+})
+
 
 app.post('/employeeRegister', async (request, response) => {
     let id = request.body["id"];
@@ -314,6 +365,17 @@ app.post('/orderFood', async (request, response) => {
 
     console.log( request.body);
     let res = await database.orderFood(restaurant , food , user );
+    response.send(res);
+})
+
+
+app.post('/managerAssignDelivery', async (request, response) => {
+    let restaurant = request.body["restaurant"];
+    let user = request.body["user"];
+    let housekeeper = request.body["housekeeper"];
+
+    console.log( request.body);
+    let res = await database.managerAssignDelivery(restaurant,  user, housekeeper);
     response.send(res);
 })
 

@@ -12,6 +12,9 @@
     <div class="row">
       <ul class="nav justify-content-center">
         <li class="nav-item">
+          <a class="nav-link" href="../login.html">Login Page</a>
+      </li>
+        <li class="nav-item">
           <a class="nav-link disabled" aria-current="page" href="my_reservations.html">My Reservations</a>
         </li>
         <li class="nav-item">
@@ -36,8 +39,30 @@
             <th>End Date</th>
             <th>Building number</th>
             <th>Room number</th>
+            <th>Submit Comment Button</th>
+          </tr>
+          <tr>
+            <th>date1</th>
+            <th>date2</th>
+            <th>Buildingno1</th>
+            <th>Roomno1</th>
+            <th>
+              <button type="submit" class="btn btn-primary" id="SubmitComment">
+              Submit Comment
+              </button>
+            </th>
           </tr>
         </table>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-md-10">
+        <label>
+          Comment text:
+        </label>
+        <br>
+        <input class="form-control" id="commentText" />
       </div>
     </div>
 
