@@ -98,16 +98,37 @@ class DatabaseService{
     }
     
     async getAllFoodOrders(){
-        return this.makeQuery(`SELECT restaurant, user, housekeeper, status FROM foodOrder WHERE foodOrder.status = "Delivering" OR foodOrder.user = "Preparing"`);
+        return this.makeQuery(`SELECT restaurant, user, housekeeper, status FROM foodOrder WHERE foodOrder.status = "Delivering" OR foodOrder.status = "Preparing"`);
     }
     
     async getMyTrainingsHousekeeper(housekeeper){
         return this.makeQuery(`SELECT event, isaccepted FROM housekeeperTrain WHERE housekeeperTrain.housekeeper = '${housekeeper}'`);
     }
+
+    async fireHousekeeper(name){
+        let queries = []
+        queries.push(this.makeQuery(`DELETE FROM User WHERE  User.username = '${name}' `));
+        queries.push(this.makeQuery(`DELETE FROM Employee WHERE  Employee.employee_id = '${name}' `));
+        queries.push(this.makeQuery(`DELETE FROM Housekeeper WHERE  SecurityStaff.housekeeper_id = '${name}' `));
+        return queries;
+    }
+    async fireSecurity(name){
+        let queries = []
+        queries.push(this.makeQuery(`DELETE FROM User WHERE  User.username = '${name}' `));
+        queries.push(this.makeQuery(`DELETE FROM Employee WHERE  Employee.employee_id = '${name}' `));
+        queries.push(this.makeQuery(`DELETE FROM SecurityStaff WHERE  SecurityStaff.securitystaff_id = '${name}' `));
+        return queries;
+    }
+
+
     
+    async getHousekeepers(){
+        return this.makeQuery(`SELECT User.username, Employee.salary FROM User JOIN Employee WHERE User.type = "housekeeper" AND Employee.employee_id = User.username`);
+    }
 
-
-
+    async getSecurity(){
+        return this.makeQuery(`SELECT User.username, Employee.salary FROM User JOIN Employee WHERE User.type = "securitystaff" AND Employee.employee_id = User.username`);
+    }
 
     async registerBuilding(name, x, y, size){
         let queries = []

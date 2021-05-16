@@ -82,6 +82,36 @@
           </table>
         </div>
       </div>
+
+      <div class="row justify-content-center"> 
+        <div class="col-md-10">
+          <br>
+          <h3> Housekeepers </h3>
+          <br> <br>
+          <table class="table table-dark table-striped table-hover tbl_code_with_mark" id="housekeeper_table">
+            <tr>
+              <th>Name</th>
+              <th>Salary</th>
+              <th> - </th>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="row justify-content-center"> 
+        <div class="col-md-10">
+          <br>
+          <h3> Securitystaffs </h3>
+          <br> <br>
+          <table class="table table-dark table-striped table-hover tbl_code_with_mark" id="securitystaff_table">
+            <tr>
+              <th>Name</th>
+              <th>Salary</th>
+              <th> - </th>
+            </tr>
+          </table>
+        </div>
+      </div>
 </body>
 
 <script src="../utils.js"> </script>
@@ -93,6 +123,8 @@ function update(){
   updateReservationTable();
   updateTicketTable();
   updateCommentTable();
+  updateHousekeeperTable();
+  updateSecuritystaffTable();
 }
 
 async function updateReservationTable(){
@@ -115,6 +147,58 @@ async function updateCommentTable(){
   for(let i = 0; i < comments.length; i++){
     let comment = comments[i];
     addRowToTable("comment_table", [comment.comment, comment.building, comment.room, comment.user]);
+  }
+}
+
+async function updateHousekeeperTable(){
+  let table = document.getElementById("housekeeper_table");
+  let tbody = table.getElementsByTagName("tbody")[0];
+
+  let housekeepers = await getData("http://localhost:5000/getHousekeepers");
+  for(let i = 0; i < housekeepers.length; i++){
+    let housekeeper = housekeepers[i];
+
+    let row = createRow([housekeeper.username, housekeeper.salary]);
+    let col = document.createElement("td");
+    let btn = document.createElement("button");
+    btn.className = "btn btn-danger";
+    btn.innerText = "Fire";
+    btn.addEventListener("click", async function(){
+      // make a request to fire the user
+      let response = await postData("http://localhost:5000/fireHousekeeper", { name: housekeeper.username});
+      alert("Employee fired");
+    })
+
+    col.append(btn);
+    row.appendChild(col)
+
+    tbody.append( row );
+  }
+}
+
+async function updateSecuritystaffTable(){
+  let table = document.getElementById("securitystaff_table");
+  let tbody = table.getElementsByTagName("tbody")[0];
+
+  let securitystaffs = await getData("http://localhost:5000/getSecuritystaffs");
+  for(let i = 0; i < securitystaffs.length; i++){
+    let securitystaff = securitystaffs[i];
+
+    let row = createRow([securitystaff.username, securitystaff.salary]);
+    let col = document.createElement("td");
+    let btn = document.createElement("button");
+    btn.className = "btn btn-danger";
+    btn.innerText = "Fire";
+    btn.addEventListener("click", async function(){
+      // make a request to fire the user
+      let response = await postData("http://localhost:5000/fireSecuritystaff", { name: securitystaff.username});
+      alert("Employee fired");
+    })
+
+    col.append(btn);
+    row.appendChild(col)
+
+    tbody.append( row );
   }
 }
 

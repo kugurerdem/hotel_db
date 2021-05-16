@@ -83,6 +83,23 @@ app.get("/securities/:id", async (request, response) => {
         .catch( err => console.log(err) ); 
 })
 
+app.get("/getHousekeepers", async (request, response) => {
+    console.log(request.params.id);
+    const result = database.getHousekeeper(request.params.id);
+    result
+        .then( data => response.json({ data: data}))
+        .catch( err => console.log(err) ); 
+})
+
+
+app.get("/getSecuritystaffs", async (request, response) => {
+    console.log(request.params.id);
+    const result = database.getSecurity(request.params.id);
+    result
+        .then( data => response.json({ data: data}))
+        .catch( err => console.log(err) ); 
+})
+
 
 app.get("/getSecurityLeave", async (request, response) => {
     const result = database.getSecurityLeave();
@@ -229,6 +246,17 @@ app.post('/securityLeaveAccepp', async (request, response) => {
     response.send(res);   
 })
 
+app.post('/fireHousekeeper', async (request, response) => {
+    let name = request.body["name"];
+    let res = await database.fireHousekeeper(name);
+    response.send(res);   
+})
+app.post('/fireSecuritystaff', async (request, response) => {
+    let name = request.body["name"];
+    let res = await database.fireSecurity(name);
+    response.send(res);   
+})
+
 app.post('/securityLeaveReject', async (request, response) => {
     let security = request.body["security"];
     console.log(request.body);
@@ -291,11 +319,6 @@ app.post('/housekeeperTrainingReject', async (request, response) => {
     let res = await database.housekeeperTrainingReject(housekeeper, event);
     response.send(res);   
 })
-
-
-
-
-
 
 app.post('/assignSecurity', async (request, response) => {
     let secVal = request.body["secValue"];
