@@ -188,6 +188,19 @@ async getEventsForUser(){
     return this.makeQuery(`SELECT * FROM event WHERE event.event_type = 'Guest Activity' OR event.event_type = 'Group Tour'`);
 }
 
+async reservationInformation(){
+    return this.makeQuery(`SELECT * FROM reservation `);
+}
+
+async ticketInformation(){
+    return this.makeQuery(`SELECT * FROM eventTickets `);
+}
+
+async commentInformation(){
+    return this.makeQuery(`SELECT * FROM comment `);
+}
+
+
 async joinEvent(user, event){
     return this.makeQuery(`INSERT INTO eventTickets(event, user) VALUES("${event}", "${user}")`) ;
 }

@@ -152,6 +152,26 @@ app.get("/getRestaurantsForUser", async (request, response) => {
         .then( data => response.json({ data: data}))
         .catch( err => console.log(err) ); 
 })
+app.get("/reservationInformation", async (request, response) => {
+    const result = database.reservationInformation();
+    result
+        .then( data => response.json({ data: data}))
+        .catch( err => console.log(err) ); 
+})
+
+app.get("/ticketInformation", async (request, response) => {
+    const result = database.ticketInformation();
+    result
+        .then( data => response.json({ data: data}))
+        .catch( err => console.log(err) ); 
+})
+
+app.get("/commentInformation", async (request, response) => {
+    const result = database.commentInformation();
+    result
+        .then( data => response.json({ data: data}))
+        .catch( err => console.log(err) ); 
+})
 
 app.get("/getMenuByRestaurant/:restaurant", async (request, response) => {
     const result = database.getMenuByRestaurant(request.params.restaurant);
@@ -244,7 +264,7 @@ app.post('/userComment', async (request, response) => {
     let building = request.body["building"];
     let room = request.body["room"];
     let user = request.body["user"];
-    let res = await database.userComment(user, building,room , text);
+    let res = await database.userComment(user, building, room, text);
     response.send(res);   
 })
 

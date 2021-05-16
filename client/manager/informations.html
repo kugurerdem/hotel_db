@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Hotel Database </title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+    </head>
+<body>
+    <ul class="nav justify-content-center">
+      <li class="nav-item">
+        <a class="nav-link" href="../login.html">Login Page</a>
+    </li>
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="housekeeper_order.html"> Housekeeper Order</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"  href="security_building.html">Security Building</a>
+        </li>
+        <li class="nav-item" >
+          <a class="nav-link" href="event_location.html">Event location</a>
+        </li>
+        <li class="nav-item" >
+          <a class="nav-link" href="training_app.html"> Training App </a>
+        </li>
+        <li class="nav-item" >
+            <a class="nav-link" href="request_form.html"> Request Form </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="add_employee.html"> Add Employee </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="informations.html"> Informations </a>
+        </li>
+      </ul>
+
+      <div class="row justify-content-center"> 
+        <div class="col-md-10">
+          <br>
+          <h3> Reservations </h3>
+          <br> <br>
+          <table class="table table-dark table-striped table-hover tbl_code_with_mark" id="reservation_table">
+            <tr>
+              <th> User </th>
+              <th> Building </th>
+              <th> Room </th>
+              <th> Startdate </th>
+              <th> Enddate </th>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="row justify-content-center"> 
+        <div class="col-md-10">
+          <br>
+          <h3> Tickets </h3>
+          <br> <br>
+          <table class="table table-dark table-striped table-hover tbl_code_with_mark" id="ticket_table">
+            <tr>
+              <th>Ticketname</th>
+              <th>Username</th>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="row justify-content-center"> 
+        <div class="col-md-10">
+          <br>
+          <h3> Comments </h3>
+          <br> <br>
+          <table class="table table-dark table-striped table-hover tbl_code_with_mark" id="comment_table">
+            <tr>
+              <th>Comment</th>
+              <th>Building</th>
+              <th>Room</th>
+              <th>Author</th>
+            </tr>
+          </table>
+        </div>
+      </div>
+</body>
+
+<script src="../utils.js"> </script>
+<script> 
+
+update();
+
+function update(){
+  updateReservationTable();
+  updateTicketTable();
+  updateCommentTable();
+}
+
+async function updateReservationTable(){
+  let reservations = await getData("http://localhost:5000/reservationInformation");
+  for(let i = 0; i < reservations.length; i++){
+    let reservation = reservations[i];
+    addRowToTable("reservation_table", [reservation.user, reservation.building, reservation.room, reservation.start, reservation.end]);
+  }
+}
+async function updateTicketTable(){
+  let tickets = await getData("http://localhost:5000/ticketInformation");
+  for(let i = 0; i < tickets.length; i++){
+    let ticket = tickets[i];
+    addRowToTable("ticket_table", [ticket.event, ticket.user]);
+  }
+}
+
+async function updateCommentTable(){
+  let comments = await getData("http://localhost:5000/commentInformation");
+  for(let i = 0; i < comments.length; i++){
+    let comment = comments[i];
+    addRowToTable("comment_table", [comment.comment, comment.building, comment.room, comment.user]);
+  }
+}
+
+function addRowToTable(table_id, arr){
+  let table = document.getElementById(table_id);
+  let tbody = table.getElementsByTagName("tbody")[0];
+  let row = createRow( arr);
+  tbody.append( row );
+}
+
+function createRow( arr ){
+  let row = document.createElement("tr");
+  for(let i = 0; i < arr.length; i++){
+    let col = document.createElement("td");
+    col.innerHTML = arr[i];
+    row.appendChild(col);
+  }
+  
+  return row
+}
+
+</script>
+
+
+</html>
