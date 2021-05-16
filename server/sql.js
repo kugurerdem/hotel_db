@@ -19,16 +19,12 @@ const SQL_STATEMENTS = [
     "CREATE TABLE IF NOT EXISTS eventTickets (event VARCHAR(16), user VARCHAR(16))" ,
     "CREATE TABLE IF NOT EXISTS comment (user VARCHAR(16), building VARCHAR(16), room VARCHAR(16), comment VARCHAR(200))" ,
 
-
-
     "INSERT INTO restaurant(restaurant) VALUES( 'kebabci')",
     "INSERT INTO restaurant(restaurant) VALUES( 'tatlici')",
     "INSERT INTO food(food, restaurant, price) VALUES( 'baklava', 'tatlici', 3)",
     "INSERT INTO food(food, restaurant, price) VALUES( 'katmer', 'tatlici', 2)",
     "INSERT INTO food(food, restaurant, price) VALUES( 'adana', 'kebabci', 1)",
     "INSERT INTO food(food, restaurant, price) VALUES( 'urfa', 'kebabci', 4)",
-
-
 ]
 
 module.exports = SQL_STATEMENTS;
