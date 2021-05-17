@@ -22,6 +22,6 @@ Just open index.html after you have launched the server.
 
 ## Reports
 
-[Project Proposal](/reports/project_proposal.pdf)
-[Design Report](/reports/design_report.pdf)
+[Project Proposal](/reports/project_proposal.pdf) <br>
+[Design Report](/reports/design_report.pdf) <br>
 [Final Report]()
