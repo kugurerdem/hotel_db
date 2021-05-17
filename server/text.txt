@@ -1,0 +1,96 @@
+User
+  Relational Model:
+  User (username, password, type )
+  PRIMARY KEY username
+Guest
+  Relational Model:
+  Guest (guest_id)
+  PRIMARY KEY guest_id
+  FOREIGN KEY guest_id REFERENCES User(username)
+Employee
+  Relational Model:
+  Employee (employee_id, salary, name)
+  PRIMARY KEY employee_id
+  FOREIGN KEY employee_id REFERENCES User(username)
+Manager
+  Relational Model:
+  Manager (manager_id)
+  PRIMARY KEY manager_id
+  FOREIGN KEY manager_id REFERENCES User(username)
+Housekeeper
+  Relational Model:
+  Housekeeper (housekeeper_id)
+  PRIMARY KEY housekeeper_id 
+  FOREIGN KEY housekeeper_id REFERENCES User(username)
+SecurityStaff
+  Relational Model:
+  SecurityStaff (securitystaff_id, building_to_watch , last_leave )
+  PRIMARY KEY securitystaff_id 
+  FOREIGN KEY securitystaff_id REFERENCES User(username)
+Building
+  Relational Model:
+  Building (building_id, cor_x , cor_y , building_size)
+  PRIMARY KEY: building_id 
+Room
+  Relational Model:
+  Room (room_id , building_id , guest_id )
+  PRIMARY KEY (room_id, building_id)
+  FOREIGN KEY building_id REFERENCES Building(building_id)
+Event
+  Relational Model:
+  Event (building_id , event_type , which_date , price , name)
+  PRIMARY KEY (name, event_type, which_date)
+  FOREIGN KEY building_id REFERENCES Building(building_id)
+leaveSecurity
+  Relational Model:
+  leaveSecurity (security , start , end , isaccepted )
+  FOREIGN KEY security REFERENCES SecurityStaff(securitystaff_id)
+leaveHousekeeper
+  Relational Model:
+  leaveHousekeeper (housekeeper , start , end , isaccepted )
+  FOREIGN KEY housekeeper REFERENCES Housekeeper(housekeeper_id)
+  FOREIGN KEY event REFERENCES Event(name)
+securityTrain
+  Relational Model:
+  securityTrain (security , event , isaccepted )
+  FOREIGN KEY security REFERENCES SecurityStaff(securitystaff_id)
+  FOREIGN KEY event REFERENCES Event(name)
+housekeeperTrain
+  Relational Model:
+  housekeeperTrain (housekeeper , event , isaccepted )
+  FOREIGN KEY housekeeper REFERENCES Housekeeper(housekeeper_id)
+  FOREIGN KEY event REFERENCES Event(name)
+reservation
+  Relational Model:
+  reservation (user , building , room , start , end )
+  FOREIGN KEY user REFERENCES User(username)
+  FOREIGN KEY building REFERENCES Building(building_id)
+  FOREIGN KEY room REFERENCES Room(room_id)
+restaurant
+  Relational Model: 
+  restaurant (restaurant)
+  PRIMARY KEY restaurant
+food
+  Relational Model:
+  food (food, restaurant , price)
+  PRIMARY KEY (food, restaurant)
+  FOREIGN KEY restaurant REFERENCES restaurant(restaurant)
+foodOrder
+  Relational Model:
+  foodOrder (restaurant , food , user , housekeeper , status)
+  FOREIGN KEY (restaurant, food) REFERENCES food(restaurant, food)
+  FOREIGN KEY user REFERENCES user(username)
+  FOREIGN KEY housekeeper REFERENCES Housekeeper(housekeeper_id)
+eventTickets
+  Relational Model:
+  eventTickets (event , user)
+  FOREIGN KEY event REFERENCES Event(name)
+  FOREIGN KEY user REFERENCES User(username)
+comment
+  Relational Model
+  comment (user , building , room , comment)
+  FOREIGN KEY user REFERENCES User(username)
+  FOREIGN KEY (building, room) REFERENCES Room(building_id, room_id)
+
+--
+

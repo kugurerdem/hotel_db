@@ -120,8 +120,6 @@ class DatabaseService{
         return this.makeQuery(`SELECT start, end, isaccepted FROM leaveSecurity WHERE leaveSecurity.security = '${security}'`);
     }
 
-
-
     async fireHousekeeper(name){
         let queries = []
         queries.push(this.makeQuery(`DELETE FROM User WHERE  User.username = '${name}' `));
