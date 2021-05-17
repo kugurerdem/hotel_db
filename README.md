@@ -2,9 +2,19 @@
 
 ## Server launch
 
-npm install
+Create a MySQL database with following variables
 
-nodemon index.js
+    PORT=5000
+    USER=tutorial
+    PASSWORD=test123
+    DATABASE=web_app
+    DB_PORT=3306
+    HOST=localhost
+
+Run the following codes from the terminal:
+
+    npm install
+    nodemon index.js
 
 ## Client launch
 
@@ -12,8 +22,8 @@ Just open index.html after you have launched the server.
 
 ## Reports
 
-Project Proposal
+[Project Proposal]()
 
-Design Report
+[Design Report]()
 
-Final Report
+[Final Report]()
