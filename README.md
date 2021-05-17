@@ -24,4 +24,4 @@ Just open index.html after you have launched the server.
 
 [Project Proposal](/reports/project_proposal.pdf) <br>
 [Design Report](/reports/design_report.pdf) <br>
-[Final Report]()
+[Final Report](/reports/final_report.pdf)
